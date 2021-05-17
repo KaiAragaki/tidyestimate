@@ -28,3 +28,5 @@ A lot of this can be piped for clarity. Since R 4.1 is introducing a native pipe
 Function should make an object, not a file.
 
 No idea what's going on with lines 17 and 18. Are what appear to be colnames being added levels? That doesn't seem right.
+
+The crux of the issue here is that it's trying to be compatible with GCT when that's not what my plan is. A lot of this can be stripped out.
