@@ -1,0 +1,35 @@
+###
+### $Id: NAMESPACE 10 2016-09-28 18:15:01Z proebuck $
+###
+
+
+## Imported methods
+importFrom('grDevices',
+    'dev.off',
+    'png'
+)
+importFrom('graphics',
+    'abline',
+    'curve',
+    'matlines',
+    'par',
+    'points',
+    'plot'
+)
+importFrom('utils',
+    'data',
+    'globalVariables',
+    'read.delim',
+    'read.table',
+    'write.table'
+)
+
+
+## Public routines
+export(
+    'estimateScore',
+    'filterCommonGenes',
+    'outputGCT',
+    'plotPurity'
+)
+

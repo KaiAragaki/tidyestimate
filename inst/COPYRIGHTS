@@ -1,0 +1,13 @@
+###
+### $Id: COPYRIGHTS 15 2016-09-29 21:36:25Z proebuck $
+###
+
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ESTIMATE
+Upstream-Contact: P. Roebuck <proebuck@mdanderson.org>
+Source: http://r-forge.r-project.org/projects/estimate/
+
+Files: *
+Copyright: 2013-2016, MD Anderson Cancer Center (MDACC)
+License: GPL-2
+
