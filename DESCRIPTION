@@ -1,17 +1,19 @@
-Package: estimate
-Version: 1.0.13
-Date: 2016-09-26
-Title: Estimate of Stromal and Immune Cells in Malignant
-        Tumor Tissues from Expression Data
-Author: Kosuke Yoshihara, Hoon Kim, Roel GW Verhaak
-Maintainer: Kosuke Yoshihara <kyoshihara@mdanderson.org>
-Description: Predicts tumor purity, and the presence of stromal/immune cells in tumor tissues using gene expression data.
-Depends: R (>= 2.15.1)
-Imports: utils, grDevices, graphics
+Package: tidy_estimate
+Version: 0.0.0.1
+Authors@R: 
+    person(given = "Kai",
+           family = "Aragaki",
+           role = c("aut", "cre"),
+           email = "aaragak1@jhmi.edu",
+           comment = c(ORCID = "0000-0002-9458-0426"))
+Description: Calculate stromal and immmune infiltration using expression data in a tidy fashion
 License: GPL-2
+Encoding: UTF-8
 LazyData: yes
-NeedsCompilation: no
-URL: https://r-forge.r-project.org/projects/estimate/
-Repository: R-Forge
-Repository/R-Forge/Project: estimate
-
+Depends: R (>= 2.15.1)
+Imports: 
+        utils, 
+        grDevices, 
+        graphics
+URL: https://github.com/KaiAragaki/tidy_estimate
+BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
