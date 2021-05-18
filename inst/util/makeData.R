@@ -1,7 +1,3 @@
-###
-### $Id: makeData.R 10 2016-09-28 18:15:01Z proebuck $
-###
-
 local({
     data.dir    <- system.file("data", package="estimate")
     extdata.dir <- system.file("extdata", package="estimate")

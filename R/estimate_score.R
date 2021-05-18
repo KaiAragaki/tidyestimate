@@ -15,6 +15,10 @@
 
 estimate_score <- function(df, is_affymetrix, tidy) {
 
+    
+    # TODO:
+    # Better naming
+    # rename SI geneset
     if(tidy) {
         df <- as.data.frame(df)
         rownames(df) <- df[, 1]
@@ -23,72 +27,65 @@ estimate_score <- function(df, is_affymetrix, tidy) {
     
     # Sample rank normalization
     
-    df <- df %>% 
-        data.matrix() %>% 
+    df <- df |>  
+        data.matrix() |>  
         apply(2, rank, ties.method = "average")
     
     df <- 10000*df/nrow(df)
-    
-    gs.names <- names(SI_geneset) 
-    
+
+    gene_sets <- SI_geneset
+    gene_set_names <- names(gene_sets)
     score.matrix <- matrix(NA_real_, nrow = 2, ncol = ncol(df))
     
-    for (gs.i in 1:2) {
-        gene.set <- gs[gs.i,]
-        gene.overlap <- intersect(gene.set, gene.names)
-        print(paste0(gs.i, "Gene set: ", gs.names[gs.i], 
-                    "\nNumber in provided dataset: ", length(gene.overlap), " (", length(gene.overlap), "/", length(gene.set), ")"))
+    for (i in 1:2) {
+        gene_set <- gene_sets[[i]]
+        sig_genes_in_df <- intersect(gene_set, rownames(df))
+        
+        message(glue::glue("Gene set: {names(gene_set)}",
+                           "# gene set genes in data: {length(sig_genes_in_df)} (out of {length(gene_set)})"))
         
         if (length(gene.overlap) == 0) { 
             next
         } else {
-            ES.vector <- vector(length = Ns)
+            ES.vector <- vector(length = ncol(df))
             
             # Enrichment score
-            for (S.index in 1:Ns) {
+            for (sample in seq_along(1:ncol(df))) {
                 
                 # Rank genes by expression
-                gene.list <- order(m[, S.index], decreasing = TRUE)   
-                ordered_genes <- m[gene.list, S.index]
-                
-                # Return the position of the overlapping genes (that is, the gene
-                # list minus the ones that weren't there) in the supplied
-                # dataframe
-                gene.set2 <- match(gene.overlap, gene.names)
-                
-                TAG <- gene.list %in% gene.set2   # 1 (TAG) & 0 (no.TAG)
-                # Inverse vector - 1 is 0, 0 is 1.
-                no.TAG <- 1 - TAG 
+                gene_list <- order(df[, sample], decreasing = TRUE)   
+                ordered_genes <- df[gene_list, sample]
 
-                # Number of non-signature genes
-                Nm <- length(gene.list) - length(gene.set2)
-                
+                hit <- ordered_genes %in% sig_genes_in_df
+                # Inverse vector - 1 is 0, 0 is 1.
+                no_hit <- 1 - hit 
+
                 # Unsure why there's an abs here - should all be positive
                 # Too scared to remove it
                 ordered_genes <- abs(ordered_genes)^0.25
                 
                 # Sum of the ranks for which there were hits
-                sum.correl <- sum(ordered_genes[TAG == 1])
+                sum.correl <- sum(ordered_genes[hit == 1])
                 
-                # Non-hits divided by number of non-signature genes
-                # A penalty is therefore 1/number of non-signature genes
-                P0 <- no.TAG/Nm
-                
-                # Running sum of non-hits
+                # Running sum of non-hits.
+                # Each non-hit incurs a penalty of 1/(# non-sig-genes)
                 # c(0.01, 0.01, 0.02, 0.03, 0.04, 0.04, 0.05...)
-                F0 <- cumsum(P0)
-                
-                # The proportion each gene contributes (sum should equal 1)
+                F0 <- 
+                    no_hit/sum(no_hit) |> 
+                    cumsum()
+
+                # Running sum of the proportion each gene contributes 
+                # (sum should equal 1)
                 # c(0, 0.3, 0, 0, 0, 0.12, 0...)
-                Pn <- TAG * ordered_genes / sum.correl
-                
-                # c(0, 0.3, 0.3, 0.3, 0.3, 0.42, 0.42...)
-                Fn <- cumsum(Pn)
-                
-                # A running enrichment score
+                Fn <- 
+                    hit * ordered_genes / sum.correl |> 
+                    cumsum()
+
+                # Sum of running ES
                 # c(-0.01, 0.29, 0.28, 0.27, 0.26, 0.38, 0.37...)
-                RES <- Fn - F0
-                ES.vector[S.index] <- sum(RES)
+                ES <- Fn - F0 |> 
+                    sum()
+                ES.vector[sample] <- ES
             }
             score.matrix[gs.i, ] <- ES.vector
         }
