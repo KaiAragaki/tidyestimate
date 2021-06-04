@@ -1,4 +1,4 @@
-# tidy_estimate
+# tidyestimate
 
 ## Statement of Need
 
@@ -6,3 +6,14 @@ The ESTIMATE package has been fundamental for many analyses, but its documentati
 
 Original paper [here](https://www.nature.com/articles/ncomms3612)
 
+## Differences
+
+|            |          tidyestimate|   ESTIMATE|
+|-----------:|:--------------------:|:---------:|
+|       input|`data.frame`, `tibble`|`.GCT` file|
+|      output|          `data.frame`|`.GCT` file|
+|`%>%`/`\|>`?|                    ✔️|         ✖️|
+
+Additionally:
+* Functions are better documented (more clear about what they want as inputs)
+* Reduced and more readable code (less to break, easier to fix)
