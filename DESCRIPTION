@@ -11,7 +11,7 @@ Description: Calculate stromal and immmune infiltration using expression data in
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.1)
+Depends: R (>= 4.1.0)
 Imports: 
         utils, 
         grDevices, 
