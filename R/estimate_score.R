@@ -10,7 +10,7 @@
 #'
 #' @return A data frame with scores for stromal, immune, and ESTIMATE scores per tumor.
 #' @export
-#'
+#' @import 
 #' @examples
 
 estimate_score <- function(df, is_affymetrix, tidy) {
@@ -18,33 +18,36 @@ estimate_score <- function(df, is_affymetrix, tidy) {
     
     # TODO:
     # Better naming
-    # rename SI geneset
+    # Reimplement sample name bit at the end
+    # Reimpliment msg adding
+    # Reimplement affy part
     if(tidy) {
-        df <- as.data.frame(df)
-        rownames(df) <- df[, 1]
-        df <- df[, -1]
+        rownames <- df[, 1]
+        df <- df[, -1] 
+    } else {
+        rownames <- row.names(df)
     }
     
     # Sample rank normalization
     
     df <- df |>  
-        data.matrix() |>  
+        apply(2, as.numeric) |> 
+        data.matrix()|> 
         apply(2, rank, ties.method = "average")
+    
+    rownames(df) <- rownames
     
     df <- 10000*df/nrow(df)
 
     gene_sets <- SI_geneset
-    gene_set_names <- names(gene_sets)
+    gene_set_names <- colnames(gene_sets)
     score.matrix <- matrix(NA_real_, nrow = 2, ncol = ncol(df))
     
     for (i in 1:2) {
-        gene_set <- gene_sets[[i]]
+        gene_set <- gene_sets[, i]
         sig_genes_in_df <- intersect(gene_set, rownames(df))
         
-        message(glue::glue("Gene set: {names(gene_set)}",
-                           "# gene set genes in data: {length(sig_genes_in_df)} (out of {length(gene_set)})"))
-        
-        if (length(gene.overlap) == 0) { 
+        if (length(sig_genes_in_df) == 0) { 
             next
         } else {
             ES.vector <- vector(length = ncol(df))
@@ -52,11 +55,12 @@ estimate_score <- function(df, is_affymetrix, tidy) {
             # Enrichment score
             for (sample in seq_along(1:ncol(df))) {
                 
-                # Rank genes by expression
+                # Arrange genes by INCREASING expression (remember, ranked previously)
                 gene_list <- order(df[, sample], decreasing = TRUE)   
                 ordered_genes <- df[gene_list, sample]
 
-                hit <- ordered_genes %in% sig_genes_in_df
+                hit <- names(ordered_genes) %in% sig_genes_in_df
+
                 # Inverse vector - 1 is 0, 0 is 1.
                 no_hit <- 1 - hit 
 
@@ -71,31 +75,29 @@ estimate_score <- function(df, is_affymetrix, tidy) {
                 # Each non-hit incurs a penalty of 1/(# non-sig-genes)
                 # c(0.01, 0.01, 0.02, 0.03, 0.04, 0.04, 0.05...)
                 F0 <- 
-                    no_hit/sum(no_hit) |> 
+                    (no_hit/sum(no_hit)) |> 
                     cumsum()
 
                 # Running sum of the proportion each gene contributes 
                 # (sum should equal 1)
                 # c(0, 0.3, 0, 0, 0, 0.12, 0...)
                 Fn <- 
-                    hit * ordered_genes / sum.correl |> 
+                    ((hit*ordered_genes)/sum.correl) |> 
                     cumsum()
 
                 # Sum of running ES
                 # c(-0.01, 0.29, 0.28, 0.27, 0.26, 0.38, 0.37...)
-                ES <- Fn - F0 |> 
+                ES <- (Fn - F0) |> 
                     sum()
                 ES.vector[sample] <- ES
             }
-            score.matrix[gs.i, ] <- ES.vector
+            score.matrix[i, ] <- ES.vector
         }
     }
 
-    # PICK UP HERE
-    
     score.data <- data.frame(score.matrix)
-    names(score.data) <- sample.names
-    row.names(score.data) <- gs.names
+    names(score.data) <- colnames(df)
+    row.names(score.data) <- gene_set_names
     estimate.score <- apply(score.data, 2, sum)
    
     if (!is_affymetrix){
@@ -103,6 +105,7 @@ estimate_score <- function(df, is_affymetrix, tidy) {
         rownames(score.data) <- c("StromalScore",
                                   "ImmuneScore",
                                   "ESTIMATEScore")
+        score.data
     } else {
         # Calculate ESTIMATE-based tumor purity (Affymetrix-specific)
         convert_row_estimate_score_to_tumor_purity <- function(x) {
@@ -114,11 +117,6 @@ estimate_score <- function(df, is_affymetrix, tidy) {
         for (i in 1:length(estimate.score)) {
             est_i <- convert_row_estimate_score_to_tumor_purity(estimate.score[i])
             est.new <- rbind(est.new, est_i)
-            if (est_i >= 0) {
-                next
-            } else {
-                message(paste(sample.names[i],": out of bounds", sep=""))
-            }
         }
         colnames(est.new) <- c("TumorPurity")
         estimate.t1 <- cbind(estimate.score, est.new)
@@ -130,9 +128,4 @@ estimate_score <- function(df, is_affymetrix, tidy) {
                                   "ESTIMATEScore",
                                   "TumorPurity")
     }
-    outputGCT(score.data, output.ds)
 }
-
-# The ideal output format would have four columns. One would be sample name, the
-# other three would be Stromal, Immune, and ESTIMATE score. I guess Affy gets a
-# tumor purity score as well.
