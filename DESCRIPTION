@@ -1,25 +1,24 @@
 Type: Package
 Package: tidyestimate
-Title: ESTIMATE Tidily
+Title: ESTIMATE using tidy data principles.
 Version: 0.1.0.0
 Authors@R: 
     c(person(given = "Kai",
-           family = "Aragaki",
-           role = c("aut", "cre"),
-           email = "aaragak1@jhmi.edu",
-           comment = c(ORCID = "0000-0002-9458-0426"))
-    person(given = "Paul",
-           family = "Roebuck",
-           role = c("cph"),
-           email = "proebuck@mdanderson.org",
-           comment = "Copyright holder of ESTIMATE package"))
-Description: Calculate stromal and immmune infiltration using expression data in a tidy fashion.
+             family = "Aragaki",
+             role = c("aut", "cre"),
+             email = "aaragak1@jhmi.edu",
+             comment = c(ORCID = "0000-0002-9458-0426")),
+      person(given = "Paul",
+             family = "Roebuck",
+             role = c("cph"),
+             email = "proebuck@mdanderson.org",
+             comment = "Copyright holder of ESTIMATE package"))
+Description: A package for calculating per-tumor stromal and immmune infiltration from RNA expression data using tidy-data principles.
 License: GPL (>= 2)
 URL: https://github.com/KaiAragaki/tidy_estimate
 BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
 Depends: 
     R (>= 4.1.0)
-
 Imports: 
     utils,
     grDevices,
