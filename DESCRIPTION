@@ -1,3 +1,4 @@
+Type: Package
 Package: tidyestimate
 Title: ESTIMATE Tidily
 Version: 0.1.0.0
@@ -8,7 +9,7 @@ Authors@R:
            email = "aaragak1@jhmi.edu",
            comment = c(ORCID = "0000-0002-9458-0426"))
 Description: Calculate stromal and immmune infiltration using expression data in a tidy fashion.
-License: GPL-2
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.1.0)
