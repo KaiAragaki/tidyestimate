@@ -6,7 +6,7 @@ The ESTIMATE package has been fundamental for many analyses, but its documentati
 
 Original paper [here](https://www.nature.com/articles/ncomms3612)
 
-## Differences
+## Features
 
 |            |          tidyestimate|   ESTIMATE|
 |-----------:|:--------------------:|:---------:|
@@ -15,5 +15,7 @@ Original paper [here](https://www.nature.com/articles/ncomms3612)
 |`%>%`/`\|>`?|                    ✔️|         ✖️|
 
 Additionally:
-* Functions are better documented (more clear about what they want as inputs)
-* Reduced and more readable code (less to break, easier to fix)
+* Faster. `tidyestimate` doesn't do any file conversion.
+* Better documentation. Functions are more clear about input requirements and returns.
+* Lighter weight. Ditching `.GCT` files slims the package size by almost half.
+* Less code, more readable (less to break, easier to fix).
