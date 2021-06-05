@@ -16,7 +16,10 @@ Imports:
     utils,
     grDevices,
     graphics,
-    glue
+    glue,
+    dplyr,
+    stats,
+    rlang
 URL: https://github.com/KaiAragaki/tidy_estimate
 BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
 RoxygenNote: 7.1.1
