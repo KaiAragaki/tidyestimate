@@ -7,6 +7,11 @@ Authors@R:
            role = c("aut", "cre"),
            email = "aaragak1@jhmi.edu",
            comment = c(ORCID = "0000-0002-9458-0426"))
+    person(given = "Paul",
+           family = "Roebuck",
+           role = c("cph"),
+           email = "proebuck@mdanderson.org",
+           comment = "Copyright holder of ESTIMATE package")
 Description: Calculate stromal and immmune infiltration using expression data in a tidy fashion.
 License: GPL-2
 Encoding: UTF-8
