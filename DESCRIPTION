@@ -3,7 +3,7 @@ Package: tidyestimate
 Title: ESTIMATE Tidily
 Version: 0.1.0.0
 Authors@R: 
-    person(given = "Kai",
+    c(person(given = "Kai",
            family = "Aragaki",
            role = c("aut", "cre"),
            email = "aaragak1@jhmi.edu",
@@ -12,12 +12,14 @@ Authors@R:
            family = "Roebuck",
            role = c("cph"),
            email = "proebuck@mdanderson.org",
-           comment = "Copyright holder of ESTIMATE package")
+           comment = "Copyright holder of ESTIMATE package"))
 Description: Calculate stromal and immmune infiltration using expression data in a tidy fashion.
 License: GPL (>= 2)
-Encoding: UTF-8
-LazyData: true
-Depends: R (>= 4.1.0)
+URL: https://github.com/KaiAragaki/tidy_estimate
+BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
+Depends: 
+    R (>= 4.1.0)
+
 Imports: 
     utils,
     grDevices,
@@ -26,6 +28,6 @@ Imports:
     dplyr,
     stats,
     rlang
-URL: https://github.com/KaiAragaki/tidy_estimate
-BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 7.1.1
