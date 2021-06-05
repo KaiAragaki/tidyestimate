@@ -1,4 +1,4 @@
-# tidyestimate
+# tidyestimate <img src='man/figures/logo.png' align="right" height="139" />
 
 ## Statement of Need
 
