@@ -13,9 +13,10 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.1.0)
 Imports: 
-        utils, 
-        grDevices, 
-        graphics
+    utils,
+    grDevices,
+    graphics,
+    glue
 URL: https://github.com/KaiAragaki/tidy_estimate
 BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
 RoxygenNote: 7.1.1
