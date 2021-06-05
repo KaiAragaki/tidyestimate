@@ -12,6 +12,9 @@
 #' 
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' 
+#' estimate_score(blca, is_affymetrix = FALSE, tidy = FALSE)
 
 estimate_score <- function(df, is_affymetrix, tidy) {
 

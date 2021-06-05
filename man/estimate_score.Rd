@@ -23,3 +23,7 @@ A data frame with scores for stromal, immune, and ESTIMATE scores per tumor.
 \description{
 Calculate Stromal, Immune, and ESTIMATE scores
 }
+\examples{
+
+estimate_score(blca, is_affymetrix = FALSE, tidy = FALSE)
+}
