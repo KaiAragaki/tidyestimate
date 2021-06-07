@@ -1,6 +1,6 @@
 Type: Package
 Package: tidyestimate
-Title: A tidy implementation of ESTIMATE.
+Title: A tidy implementation of ESTIMATE
 Version: 0.1.0.9000
 Authors@R: 
     c(person(given = "Kai",
@@ -13,7 +13,9 @@ Authors@R:
              role = c("cph"),
              email = "proebuck@mdanderson.org",
              comment = "Copyright holder of ESTIMATE package"))
-Description: A fast, light, tidy implementation of ESTIMATE.
+Description: The ESTIMATE package measures tumor purity as a function of immune 
+  and stromal infiltrate, but requires writing of intermediate files and is 
+  un-pipeable. tidyestimate seeks to provide fast, tidy, modern interface to ESTIMATE.
 License: GPL (>= 2)
 URL: https://github.com/KaiAragaki/tidy_estimate
 BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
