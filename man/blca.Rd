@@ -15,7 +15,7 @@ blca
 }
 \description{
 A dataset containing the normalized (by variance stabilizing transformation,
-`DESeq2::vst()`) RNAseq expression of 10 randomly sampled tumors from
+\code{DESeq2::vst()}) RNAseq expression of 10 randomly sampled tumors from
 the bladder cancer cohort of The Cancer Genome Atlas.
 }
 \details{

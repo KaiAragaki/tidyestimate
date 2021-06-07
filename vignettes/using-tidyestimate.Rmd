@@ -1,0 +1,47 @@
+---
+title: "Using tidyestimate"
+author: "Kai Aragaki"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{using-tidyestimate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+# Introduction
+
+`tidyestimate` is a tidy implementation of the `estimate` package and paper[@yoshihara2013].
+
+`estimate` calculates tumor purity by performing gene-set-enrichment-analysis (GSEA)[@subramanian2005] on a single-sample basis (ssGSEA)[@barbie2009], using both a stromal gene set and an immune gene set. By adding these two signatures together, an ESTIMATE score is calculated as well. Further, Yoshihara et al. provide an Affymetrix-exclusive transformation function to allow for the calculation of a 'purity score'.
+
+Whereas `estimate` inputs and outputs were largely `.GCT` files, `tidyestimate` simplifies the `estimate` package by taking a dataframe, tibble, or matrix as an input, and returning a dataframe. This eliminates the need for intermediate files, reduces execution time, and allows for tidier (pipe-compatible) code.
+
+
+# Preparing data
+
+```{r}
+library(tidyestimate)
+library(estimate)
+sample_input
+
+scores <- estimate_score(sample_input, is_affymetrix = TRUE, tidy = FALSE)
+
+ptm <- proc.time()
+estimate_score(sample_input, is_affymetrix = TRUE, tidy = FALSE)
+proc.time()-ptm
+
+OvarianCancerExpr <- system.file("extdata", "sample_input.txt", package="estimate")
+ filterCommonGenes(input.f=OvarianCancerExpr, output.f="OV_10412genes.gct", id="GeneSymbol")
+ estimateScore("OV_10412genes.gct", "OV_estimate_score.gct", platform="affymetrix")
+ 
+a <-  read.delim("OV_estimate_score.gct") |> 
+  dplyr::slice(-(1:2)) |>
+  dplyr::select(-1) 
+rownames(a) <- a[, 1]
+a <- t(a) |> 
+  dplyr::as_tibble() |> 
+  dplyr::slice(-1)
+
+b <- estimate_score(sample_input, is_affymetrix = TRUE, tidy = FALSE)
+```
