@@ -2,13 +2,13 @@
 % Please edit documentation in R/estimate_score.R
 \name{estimate_score}
 \alias{estimate_score}
-\title{Calculate Stromal, Immune, and ESTIMATE scores}
+\title{ESTIMATE tumor purity}
 \usage{
 estimate_score(df, is_affymetrix, tidy)
 }
 \arguments{
 \item{df}{a dataframe of normalized expression data, where columns are
-patients and genes are rows. Gene names must be HGNC, and may either be the
+patients and rows are genes. Gene names must be HGNC, and may either be the
 first column or the rownames (see `tidy` argument below)}
 
 \item{is_affymetrix}{logical. Is the expression data from an Affymetrix
@@ -18,12 +18,39 @@ array?}
 If false, assumes rownames contain HGNC symbols}
 }
 \value{
-A data frame with scores for stromal, immune, and ESTIMATE scores per tumor.
+A data frame with scores for stromal, immune, and ESTIMATE scores per
+  tumor. If \code{is_affymetrix = TRUE}, purity scores as well.
 }
 \description{
 Calculate Stromal, Immune, and ESTIMATE scores
 }
-\examples{
+\details{
+ESTIMATE (and this tidy implementation) calculates tumor infiltration using
+two gene sets: a stromal signature, and an immune signature (these can be
+accessed using \code{tidyestimate:::gene_sets}).
 
+Enrichment scores for each sample are calculated using single sample Gene Set
+Enrichment Analysis (ssGSEA), a single sample implementation of GSEA.
+Briefly, expression is ranked on a per-sample basis, and the density and
+distribution of gene signature 'hits' is determined. An enrichment of hits at
+the top of the expression ranking confers a higher score, while an enrichment
+of hits at the bottom of the expression ranking confers a lower score.
+
+An 'ESTIMATE' score is calculated by adding the stromal and immune scores
+together.
+
+For Affymetrix arrays, a transformation developed by Yoshihara et al. (see
+references) has been developed. It takes the approximate form of:
+
+\deqn{purity = cos(0.61 + 0.00015 * ESTIMATE)}
+
+Values have been rounded to two significant figures for display purposes.
+}
+\examples{
 estimate_score(blca, is_affymetrix = FALSE, tidy = FALSE)
+}
+\references{
+Barbie et al. (2009) <doi:10.1038/nature08460>
+
+Yoshihara et al. (2013) <doi:10.1038/ncomms3612>
 }

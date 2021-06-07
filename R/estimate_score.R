@@ -1,21 +1,51 @@
+#' ESTIMATE tumor purity
+#'
 #' Calculate Stromal, Immune, and ESTIMATE scores
-#' 
-#' ESTIMATE tumor infiltration 
 #'
 #' @param df a dataframe of normalized expression data, where columns are
-#'   patients and genes are rows. Gene names must be HGNC, and may either be the
+#'   patients and rows are genes. Gene names must be HGNC, and may either be the
 #'   first column or the rownames (see `tidy` argument below)
 #' @param is_affymetrix logical. Is the expression data from an Affymetrix
 #'   array?
 #' @param tidy logical. If true, assumes the first column contains HGNC symbols.
 #'   If false, assumes rownames contain HGNC symbols
 #'
-#' @return A data frame with scores for stromal, immune, and ESTIMATE scores per tumor.
-#' 
+#' @details
+#'
+#' ESTIMATE (and this tidy implementation) calculates tumor infiltration using
+#' two gene sets: a stromal signature, and an immune signature (these can be
+#' accessed using \code{tidyestimate:::gene_sets}).
+#'
+#' Enrichment scores for each sample are calculated using single sample Gene Set
+#' Enrichment Analysis (ssGSEA), a single sample implementation of GSEA.
+#' Briefly, expression is ranked on a per-sample basis, and the density and
+#' distribution of gene signature 'hits' is determined. An enrichment of hits at
+#' the top of the expression ranking confers a higher score, while an enrichment
+#' of hits at the bottom of the expression ranking confers a lower score.
+#'
+#' An 'ESTIMATE' score is calculated by adding the stromal and immune scores
+#' together.
+#'
+#' For Affymetrix arrays, a transformation developed by Yoshihara et al. (see
+#' references) has been developed. It takes the approximate form of:
+#'
+#' \deqn{purity = cos(0.61 + 0.00015 * ESTIMATE)}
+#'
+#' Values have been rounded to two significant figures for display purposes.
+#'
+#' @return A data frame with scores for stromal, immune, and ESTIMATE scores per
+#'   tumor. If \code{is_affymetrix = TRUE}, purity scores as well.
+#'
+#' @references
+#'
+#' Barbie et al. (2009) <doi:10.1038/nature08460>
+#'
+#' Yoshihara et al. (2013) <doi:10.1038/ncomms3612>
+#'
+#'
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' 
 #' estimate_score(blca, is_affymetrix = FALSE, tidy = FALSE)
 
 estimate_score <- function(df, is_affymetrix, tidy) {
@@ -45,7 +75,8 @@ estimate_score <- function(df, is_affymetrix, tidy) {
         common_genes <- intersect(unlist(gene_set), rownames(df))
         
         message(glue::glue("Gene set: {colnames(gene_set)}",
-                           "# gene set genes in data: {length(common_genes)} (out of {nrow(gene_set)})", .sep = "\n"))
+                           "# gene set genes in data: {length(common_genes)} 
+                           (out of {nrow(gene_set)})", .sep = "\n"))
         
         if (length(common_genes) == 0) { 
             next
@@ -59,25 +90,22 @@ estimate_score <- function(df, is_affymetrix, tidy) {
             gene_list <- order(df[, sample], decreasing = TRUE)   
             ordered_genes <- df[gene_list, sample]
             
-            hit <- names(ordered_genes) %in% common_genes
-            no_hit <- 1 - hit 
+            hit_ind <- names(ordered_genes) %in% common_genes
+            no_hit_ind <- 1 - hit_ind 
             
-            ordered_genes <- abs(ordered_genes)^0.25
+            ordered_genes <- ordered_genes^0.25
             
-            sum.correl <- sum(ordered_genes[hit == 1])
+            hit_exp <- ordered_genes[hit_ind]
             
-            F0 <- 
-                (no_hit/sum(no_hit)) |> 
+            no_hit_penalty <- 
+                (no_hit_ind/sum(no_hit_ind)) |> 
                 cumsum()
             
-            Fn <- 
-                ((hit*ordered_genes)/sum.correl) |> 
+            hit_reward <- 
+                ((hit_ind*ordered_genes)/sum(hit_exp)) |> 
                 cumsum()
-            
-            ES <- (Fn - F0) |> 
-                sum()
-            
-            ES.vector[sample] <- ES
+
+            ES.vector[sample] <- sum(hit_reward - no_hit_penalty)
         }
         scores[, i] <- ES.vector
     }
