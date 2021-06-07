@@ -1,10 +1,10 @@
+# Prepares "common_genes" dataset ------
 library(dplyr)
 library(tidyr)
 library(stringr)
 library(biomaRt)
 
 get_identifiers <- function(x) {
-        
         bm <- biomaRt::useMart(biomart="ENSEMBL_MART_ENSEMBL", 
                                dataset = "hsapiens_gene_ensembl")
         biomaRt::getBM(
@@ -14,14 +14,15 @@ get_identifiers <- function(x) {
                 mart = bm)
 }
 
-dat <- get_identifiers(common_genes_old)
+# Takes the common genes list used in the estimate package
+common_genes <- get_identifiers(common_genes_old)
 
-dupes_ent <- dat$entrezgene_id[duplicated(dat$entrezgene_id)] 
-ent_dupes <- dat[dat$entrezgene_id %in% dupes_ent,]
+dupes_ent <- common_genes$entrezgene_id[duplicated(common_genes$entrezgene_id)] 
+ent_dupes <- common_genes[common_genes$entrezgene_id %in% dupes_ent,]
 
-dupes_hgnc <- dat$hgnc_symbol[duplicated(dat$hgnc_symbol)] 
+dupes_hgnc <- common_genes$hgnc_symbol[duplicated(common_genes$hgnc_symbol)] 
 
-blank <- filter(dat, hgnc_symbol == "")
+blank <- filter(common_genes, hgnc_symbol == "")
 
 # Blanks that do not have another entry with a name.
 anti_join(blank, ent_dupes)
@@ -29,13 +30,13 @@ anti_join(blank, ent_dupes)
 # There are just two: 23766, and 79857. The first is a pseudogene, the second is
 # an ncRNA gene. Both feel safe to remove.
 
-dat <- filter(dat, hgnc_symbol != "")
+common_genes <- filter(common_genes, hgnc_symbol != "")
 
-dupes_hgnc <- dat$hgnc_symbol[duplicated(dat$hgnc_symbol)] 
+dupes_hgnc <- common_genes$hgnc_symbol[duplicated(common_genes$hgnc_symbol)] 
 # No more HGNC duplicates
 
-dupes_ent <- dat$entrezgene_id[duplicated(dat$entrezgene_id)] 
-ent_dupes <- dat[dat$entrezgene_id %in% dupes_ent,]
+dupes_ent <- common_genes$entrezgene_id[duplicated(common_genes$entrezgene_id)] 
+ent_dupes <- common_genes[common_genes$entrezgene_id %in% dupes_ent,]
 
 # Three duplicates remain. In all cases, one of the two is a two-symbol gene.
 # I'm going to filter FOR the dashed genes, then use a filtering join to get 
@@ -43,14 +44,14 @@ ent_dupes <- dat[dat$entrezgene_id %in% dupes_ent,]
 
 remove <- filter(ent_dupes, str_detect(hgnc_symbol, "-"))
 
-dat <- anti_join(dat, remove)
+common_genes <- anti_join(common_genes, remove)
 
-dupes_ent <- dat$entrezgene_id[duplicated(dat$entrezgene_id)] 
+dupes_ent <- common_genes$entrezgene_id[duplicated(common_genes$entrezgene_id)] 
 # No more dupes!
 
 # Now, who's missing?
 
-aj <- anti_join(common_genes, dat, by = c("EntrezID" = "entrezgene_id"))
+aj <- anti_join(common_genes_old, common_genes, by = c("EntrezID" = "entrezgene_id"))
 # 4104   - pseudogene
 # 5003   - ??
 # 8123   - ??
@@ -77,4 +78,4 @@ aj <- anti_join(common_genes, dat, by = c("EntrezID" = "entrezgene_id"))
 # This leaves 9 genes that are, for reasons unknown, not looked up by biomaRt.
 # 9/10412 = ~0.00086
 
-usethis::use_data()
+usethis::use_data(common_genes, overwrite = TRUE)
