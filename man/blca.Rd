@@ -15,17 +15,12 @@ blca
 }
 \description{
 A dataset containing the normalized (by variance stabilizing transformation,
-vst - see references) RNAseq expression of 10 randomly sampled tumors from
+`DESeq2::vst()`) RNAseq expression of 10 randomly sampled tumors from
 the bladder cancer cohort of The Cancer Genome Atlas.
 }
 \details{
 To reduce size of dataset, the genes that expressed in the lowest 20% (taking
 ALL tumors into account, before random sampling) were removed from the
 dataset.
-}
-\references{
-Simon Anders, Wolfgang Huber: Differential expression analysis
-  for sequence count data. Genome Biology 2010, 11:106.
-  http://dx.doi.org/10.1186/gb-2010-11-10-r106
 }
 \keyword{datasets}
