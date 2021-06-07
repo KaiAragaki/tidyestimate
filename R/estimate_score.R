@@ -1,4 +1,6 @@
 #' Calculate Stromal, Immune, and ESTIMATE scores
+#' 
+#' ESTIMATE tumor infiltration 
 #'
 #' @param df a dataframe of normalized expression data, where columns are
 #'   patients and genes are rows. Gene names must be HGNC, and may either be the
