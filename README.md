@@ -10,7 +10,7 @@ Original paper [here](https://www.nature.com/articles/ncomms3612)
 
 |            |          tidyestimate|   ESTIMATE|
 |-----------:|:--------------------:|:---------:|
-|       input|`data.frame`, `tibble`|`.GCT` file|
+|       input|`data.frame`<br />`tibble`<br />`matrix`|`.GCT` file|
 |      output|          `data.frame`|`.GCT` file|
 |`%>%`/`\|>`?|                    ✔️|         ✖️|
 |        size|                  ~1MB|        ~7MB|
