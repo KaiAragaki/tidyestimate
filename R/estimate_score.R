@@ -14,7 +14,7 @@
 #'
 #' ESTIMATE (and this tidy implementation) calculates tumor infiltration using
 #' two gene sets: a stromal signature, and an immune signature (these can be
-#' accessed using \code{tidyestimate:::gene_sets}).
+#' accessed using \code{tidyestimate::gene_sets}).
 #'
 #' Enrichment scores for each sample are calculated using single sample Gene Set
 #' Enrichment Analysis (ssGSEA), a single sample implementation of GSEA.
