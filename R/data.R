@@ -63,14 +63,16 @@
 #'   immune scores as calculated by ESTIMATE. All tumors were profiled on
 #'   Affymetrix arrays, and were used to generate the Affymetrix algorithm.
 #'
-#' @format A dataframe with 995 rows and 7 variables: 
-#' \describe{
-#'   \item{purity_observed}{The purity of a tumor given by ABSOLUTE, ranging
-#'   from 0 (least pure) to 1 (most pure)} 
-#'   \item{stromal}{Stromal infiltration score, as measured by ESTIMATE}
-#'   \item{immune}{Immune infiltration score, as measured by ESTIMATE}
-#'   \item{purity_predicted}{Tumor purity inferred using the ESTIMATE algorithm}
-#'   \item{ci_95_low}{Lower bound of a 95% confidence interval of predicted purity scores}
-#'   \item{ci_95_high}{Upper bound of a 95% confidence interval of predicted purity scores}
-#' }
+#' @format A data frame with 995 rows and 7 variables: 
+#'   \describe{
+#'     \item{purity_observed}{The purity of a tumor given by ABSOLUTE, ranging from 0 (least pure) to 1 (most pure)} 
+#'     \item{stromal}{Stromal infiltration score, as measured by ESTIMATE}
+#'     \item{immune}{Immune infiltration score, as measured by ESTIMATE}
+#'     \item{estimate}{ESTIMATE score, calculated by the sum of immune and stromal scores}
+#'     \item{purity_predicted}{Tumor purity inferred using the ESTIMATE algorithm}
+#'     \item{ci_95_low}{Lower bound of a 95\% confidence interval of predicted purity scores}
+#'     \item{ci_95_high}{Upper bound of a 95\% confidence interval of predicted purity scores}
+#'   }
+#'   
+#' @source \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/PurityDataAffy.RData?root=estimate&view=log}
 "purity_data_affy"
