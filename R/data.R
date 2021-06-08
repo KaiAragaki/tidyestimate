@@ -57,5 +57,20 @@
 "ov"
 
 #' Affymetrix data used to train ESTIMATE algorithm
-#' 
-#' @description  
+#'
+#' @description A dataframe containing the ABSOLUTE-measured and
+#'   ESTIMATE-predicted purity values of 995 tumors. Additionally, stromal and
+#'   immune scores as calculated by ESTIMATE. All tumors were profiled on
+#'   Affymetrix arrays, and were used to generate the Affymetrix algorithm.
+#'
+#' @format A dataframe with 995 rows and 7 variables: 
+#' \describe{
+#'   \item{purity_observed}{The purity of a tumor given by ABSOLUTE, ranging
+#'   from 0 (least pure) to 1 (most pure)} 
+#'   \item{stromal}{Stromal infiltration score, as measured by ESTIMATE}
+#'   \item{immune}{Immune infiltration score, as measured by ESTIMATE}
+#'   \item{purity_predicted}{Tumor purity inferred using the ESTIMATE algorithm}
+#'   \item{ci_95_low}{Lower bound of a 95% confidence interval of predicted purity scores}
+#'   \item{ci_95_high}{Upper bound of a 95% confidence interval of predicted purity scores}
+#' }
+"purity_data_affy"

@@ -8,7 +8,7 @@
 A data frame with 141 row and 2 variables:
   \describe{
     \item{stromal_signature}{Geneset of HGNC symbols used to measure stromal cell infiltration in a tumor}
-    \item{immube_signature}{Geneset of HGNC symbols used to measure immune cell infiltration in a tumor}
+    \item{immune_signature}{Geneset of HGNC symbols used to measure immune cell infiltration in a tumor}
   }
 }
 \source{
