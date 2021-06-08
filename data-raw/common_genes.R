@@ -3,8 +3,9 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library(biomaRt)
+library(utils)
 
-download.file("https://r-forge.r-project.org/scm/viewvc.php/*checkout*/pkg/estimate/data/common_genes.RData?revision=2&root=estimate",
+utils::download.file("https://r-forge.r-project.org/scm/viewvc.php/*checkout*/pkg/estimate/data/common_genes.RData?revision=2&root=estimate",
               destfile = "./data-raw/common_genes_old.RData", 
               method = "curl")
 load("./data-raw/common_genes_old.RData")

@@ -1,6 +1,8 @@
 # Prepares "purity_data_affy" dataset ----
+library(dplyr)
+library(utils)
 
-download.file("https://r-forge.r-project.org/scm/viewvc.php/*checkout*/pkg/estimate/data/PurityDataAffy.RData?root=estimate",
+utils::download.file("https://r-forge.r-project.org/scm/viewvc.php/*checkout*/pkg/estimate/data/PurityDataAffy.RData?root=estimate",
               destfile = "./data-raw/purity_data_affy_old.RData", 
               method = "curl")
 load("./data-raw/purity_data_affy_old.RData")
