@@ -4,6 +4,13 @@ library(tidyr)
 library(stringr)
 library(biomaRt)
 
+download.file("https://r-forge.r-project.org/scm/viewvc.php/*checkout*/pkg/estimate/data/common_genes.RData?revision=2&root=estimate",
+              destfile = "./data-raw/common_genes_old.RData", 
+              method = "curl")
+load("./data-raw/common_genes_old.RData")
+
+common_genes_old <- common_genes
+
 get_identifiers <- function(x) {
         bm <- biomaRt::useMart(biomart="ENSEMBL_MART_ENSEMBL", 
                                dataset = "hsapiens_gene_ensembl")
