@@ -46,7 +46,7 @@
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' estimate_score(blca, is_affymetrix = FALSE, tidy = FALSE)
+#' estimate_score(ov, is_affymetrix = TRUE, tidy = FALSE)
 
 estimate_score <- function(df, is_affymetrix, tidy) {
 
@@ -67,11 +67,11 @@ estimate_score <- function(df, is_affymetrix, tidy) {
     
     df <- 10000*df/nrow(df)
 
-    gene_set_names <- colnames(gene_sets)
+    gene_set_names <- colnames(tidyestimate::gene_sets)
     scores <- matrix(NA_real_, nrow = ncol(df), ncol = 2)
     
     for (i in 1:2) {
-        gene_set <- gene_sets[, i, drop = FALSE]
+        gene_set <- tidyestimate::gene_sets[, i, drop = FALSE]
         common_genes <- intersect(unlist(gene_set), rownames(df))
         
         message(glue::glue("Gene set: {colnames(gene_set)}",
