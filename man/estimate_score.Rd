@@ -27,7 +27,7 @@ Calculate Stromal, Immune, and ESTIMATE scores
 \details{
 ESTIMATE (and this tidy implementation) calculates tumor infiltration using
 two gene sets: a stromal signature, and an immune signature (these can be
-accessed using \code{tidyestimate:::gene_sets}).
+accessed using \code{tidyestimate::gene_sets}).
 
 Enrichment scores for each sample are calculated using single sample Gene Set
 Enrichment Analysis (ssGSEA), a single sample implementation of GSEA.
@@ -47,7 +47,7 @@ references) has been developed. It takes the approximate form of:
 Values have been rounded to two significant figures for display purposes.
 }
 \examples{
-estimate_score(blca, is_affymetrix = FALSE, tidy = FALSE)
+estimate_score(ov, is_affymetrix = TRUE, tidy = FALSE)
 }
 \references{
 Barbie et al. (2009) <doi:10.1038/nature08460>
