@@ -9,11 +9,11 @@ load("./data-raw/purity_data_affy_old.RData")
 
 # Rename cols for better homogeneity and descriptive value
 purity_data_affy <- PurityDataAffy |>
-        dplyr::rename(tumor_purity = tumor.purity,
+        dplyr::rename(purity_observed = tumor.purity,
                       stromal = StromalScore,
                       immune = ImmuneScore,
                       estimate = ESTIMATEScore,
-                      purity = fit,
+                      purity_predicted = fit,
                       ci_95_low = lwr.p,
                       ci_95_high  = upr.p
         )
