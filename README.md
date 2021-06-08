@@ -4,7 +4,7 @@
 
 The ESTIMATE package has been fundamental for many analyses, but its documentation is lacking, and its functions sometimes overstep their bounds while not doing enough. This package is a refresh of ESTIMATE with the goal of maintaining the excellent backbone of the package while increasing its documentation and function scope.
 
-Original paper [here](https://www.nature.com/articles/ncomms3612)
+Original paper [here](https://www.nature.com/articles/ncomms3612).
 
 ## Features
 
