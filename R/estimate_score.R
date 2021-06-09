@@ -3,12 +3,10 @@
 #' Calculate Stromal, Immune, and ESTIMATE scores
 #'
 #' @param df a data frame of normalized expression data, where columns are
-#'   patients and rows are genes. Gene names must be HGNC, and may either be the
-#'   first column or the rownames (see `tidy` argument below)
+#'   patients and rows are genes. Gene names must be in the first column, and in
+#'   the form of HGNC symbols.
 #' @param is_affymetrix logical. Is the expression data from an Affymetrix
 #'   array?
-#' @param tidy logical. If true, assumes the first column contains HGNC symbols.
-#'   If false, assumes rownames contain HGNC symbols
 #'
 #' @details
 #'
@@ -46,18 +44,14 @@
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' 
-#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |> 
-#'   estimate_score(is_affymetrix = TRUE, tidy = FALSE)
+#'
+#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |>
+#'   estimate_score(is_affymetrix = TRUE)
 
 estimate_score <- function(df, is_affymetrix, tidy) {
 
-    if(tidy) {
-        rownames <- df[, 1]
-        df <- df[, -1] 
-    } else {
-        rownames <- row.names(df)
-    }
+    rownames <- df[, 1]
+    df <- df[, -1] 
     
     # Sample rank normalization
     df <- df |>  

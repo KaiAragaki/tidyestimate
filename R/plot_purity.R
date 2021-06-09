@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |> 
-#'   estimate_score(is_affymetrix = TRUE, tidy = FALSE) |>
+#'   estimate_score(is_affymetrix = TRUE) |>
 #'   plot_purity(is_affymetrix = TRUE)
 #' 
 plot_purity <- function(scores, is_affymetrix) {
