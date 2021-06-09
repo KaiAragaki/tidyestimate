@@ -86,4 +86,6 @@ aj <- anti_join(common_genes_old, common_genes, by = c("EntrezID" = "entrezgene_
 # This leaves 9 genes that are, for reasons unknown, not looked up by biomaRt.
 # 9/10412 = ~0.00086
 
+common_genes <- mutate(common_genes, across(everything(), as.character))
+
 usethis::use_data(common_genes, overwrite = TRUE)
