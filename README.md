@@ -13,7 +13,7 @@ Original paper [here](https://www.nature.com/articles/ncomms3612).
 |       input|`data.frame`<br />`tibble`<br />`matrix`|`.GCT` file|
 |      output|          `data.frame`|`.GCT` file|
 |`%>%`/`\|>`?|                    ✔️|         ✖️|
-|        size|                  ~1MB|        ~7MB|
+|        size|                  <1MB|        ~7MB|
 
 Additionally:
 
