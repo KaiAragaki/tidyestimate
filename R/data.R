@@ -58,7 +58,7 @@
 
 #' Affymetrix data used to train ESTIMATE algorithm
 #'
-#' @description A dataframe containing the ABSOLUTE-measured and
+#' @description A data frame containing the ABSOLUTE-measured and
 #'   ESTIMATE-predicted purity values of 995 tumors. Additionally, stromal and
 #'   immune scores as calculated by ESTIMATE. All tumors were profiled on
 #'   Affymetrix arrays, and were used to generate the Affymetrix algorithm.
