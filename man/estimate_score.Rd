@@ -7,7 +7,7 @@
 estimate_score(df, is_affymetrix, tidy)
 }
 \arguments{
-\item{df}{a dataframe of normalized expression data, where columns are
+\item{df}{a data frame of normalized expression data, where columns are
 patients and rows are genes. Gene names must be HGNC, and may either be the
 first column or the rownames (see `tidy` argument below)}
 

@@ -1,6 +1,6 @@
 #' Plot Affymetrix purity scores against ESTIMATE study purity scores
 #'
-#' @param scores a dataframe, usually one output from `estimate_score`
+#' @param scores a data frame, usually one output from `estimate_score`
 #' @param is_affymetrix logical. Are these data from an Affymetrix experiment?
 #'   Must be TRUE - this is essentially a verification from the user
 #'
@@ -10,7 +10,8 @@
 #' @importFrom ggplot2 aes
 #'
 #' @examples
-#' estimate_score(ov, is_affymetrix = TRUE, tidy = FALSE) |>
+#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |> 
+#'   estimate_score(is_affymetrix = TRUE, tidy = FALSE) |>
 #'   plot_purity(is_affymetrix = TRUE)
 #' 
 plot_purity <- function(scores, is_affymetrix) {

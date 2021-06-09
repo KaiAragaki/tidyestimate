@@ -2,7 +2,7 @@
 #'
 #' Calculate Stromal, Immune, and ESTIMATE scores
 #'
-#' @param df a dataframe of normalized expression data, where columns are
+#' @param df a data frame of normalized expression data, where columns are
 #'   patients and rows are genes. Gene names must be HGNC, and may either be the
 #'   first column or the rownames (see `tidy` argument below)
 #' @param is_affymetrix logical. Is the expression data from an Affymetrix
@@ -127,3 +127,4 @@ estimate_score <- function(df, is_affymetrix, tidy) {
     }
     
     scores
+}
