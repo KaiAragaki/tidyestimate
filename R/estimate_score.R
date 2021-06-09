@@ -116,7 +116,8 @@ estimate_score <- function(df, is_affymetrix, tidy) {
         as.data.frame() |> 
         stats::setNames(c("stromal", "immune")) |> 
         dplyr::mutate(sample = colnames(df),
-                      estimate = .data$stromal + .data$immune)
+                      estimate = .data$stromal + .data$immune) |> 
+        dplyr::relocate(sample)
    
     if (is_affymetrix) {
         # Calculate ESTIMATE-based tumor purity
@@ -126,4 +127,3 @@ estimate_score <- function(df, is_affymetrix, tidy) {
     }
     
     scores
-}
