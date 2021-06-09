@@ -46,7 +46,9 @@
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' estimate_score(ov, is_affymetrix = TRUE, tidy = FALSE)
+#' 
+#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |> 
+#'   estimate_score(is_affymetrix = TRUE, tidy = FALSE)
 
 estimate_score <- function(df, is_affymetrix, tidy) {
 
