@@ -1,7 +1,7 @@
 Type: Package
 Package: tidyestimate
 Title: A tidy implementation of ESTIMATE
-Version: 0.1.0.9004
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Kai",
              family = "Aragaki",
