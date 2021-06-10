@@ -16,8 +16,8 @@ get_identifiers <- function(x) {
         bm <- biomaRt::useMart(biomart="ENSEMBL_MART_ENSEMBL", 
                                dataset = "hsapiens_gene_ensembl")
         biomaRt::getBM(
-                attributes = c('entrezgene_id', 'hgnc_symbol'),
-                filters = 'entrezgene_id',
+                attributes = c("entrezgene_id", "hgnc_symbol", "external_synonym"),
+                filters = "entrezgene_id",
                 values = x$EntrezID, 
                 mart = bm)
 }
