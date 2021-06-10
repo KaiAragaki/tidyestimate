@@ -14,11 +14,9 @@
 #'   If first column contains gene identifier, set \code{TRUE}
 #' @param tell_missing logical. If \code{TRUE}, prints message of genes in
 #'   common gene set that are not in supplied data frame.
-#' @param find_alias logical. If \code{TRUE}, will attempt to find if genes
-#'   missing from \code{common_genes} are going under an alias. The function
-#'   will attempt to find ESTIMATE gene set genes first (see
-#'   \code{tidyestimate::gene_sets}), then move down the list to find any
-#'   aliases for the remaining genes. See details for more information.
+#' @param find_alias logical. If \code{TRUE} and \code{id = "hgnc_symbol"}, will attempt to find if genes
+#'   missing from \code{common_genes} are going under an alias. See details for
+#'   more information.
 #'
 #' @details
 #'
@@ -27,16 +25,13 @@
 #' dataset. This will only run if \code{find_aliases = TRUE} and \code{id =
 #' "hgnc_symbol"}.
 #'
-#' Aliases will first attempt to be found for those in
-#' \code{tidyestimate::gene_sets}, starting from the first missing gene in
-#' \code{tidyestimate::common_genes} and moving downwards. The first encountered
-#' match found in the given dataset with any alias of that given 'common gene'
-#' will be marked as a hit, and the gene identifier of the dataframe provided
-#' will be **changed** to the non-alias gene name in the common genes. The
-#' matched alias will then be removed from all other aliases in order to
-#' maximize the number of unique hits (as there are unique HGNC symbols that
-#' share an alias). Once the process has been attempted for all missing genes of
-#' the gene sets, attempts will be made for the remaining missing genes.
+#' This algorithm is very conservative: It will only make a match if the gene
+#' from the common genes has only one alias that matches with only one gene from
+#' the provided dataset, **and** the gene from the provided dataset with which
+#' it matches only matches with a single gene from the list of common genes.
+#' (Note that a single gene may have many aliases). Once a match has been made,
+#' the gene in the provided dataset is updated to the gene name in the common
+#' gene list.
 #'
 #' As this can be error prone, it is disabled by default. Users should check
 #' which genes are becoming reassigned to ensure accuracy.
@@ -44,63 +39,100 @@
 #' The method of generation of these aliases can be found at
 #' \code{?tidyestimate::common_genes}
 #'
-#' @return A tidy tibble, with gene identifiers as the first column
+#' @return A \code{tibble}, with gene identifiers as the first column
 #' @export
 #'
 #' @examples
-#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, find_alias = FALSE)
+#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = FALSE)
 
 filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
                                  tidy = FALSE, tell_missing = TRUE, 
                                  find_alias = FALSE) {
-  id <- match.arg(id)
-  
   if (!tidy) {
     df <- dplyr::as_tibble(df, rownames = id)
   }
   
+  if (sum(duplicated(df[[id]])) > 0) warning("Input dataframe has duplicated IDs")
+  
   common_genes <- tidyestimate::common_genes
+  
+  unique_common_genes <- unique(common_genes[,1:2])
   
   filtered <- dplyr::semi_join(df, common_genes) 
   
-  message(glue::glue("Found {nrow(filtered)} of {nrow(common_genes)} genes ({round(nrow(filtered)/nrow(common_genes) * 100, 3)}%) in your dataset."))
-  
-  if (tell_missing) {
-    missing <- dplyr::anti_join(common_genes, df)[[id]]
-    message(glue::glue("The following genes are in the list of common genes, but not in your dataset:", 
-                       "{paste(unique(missing), collapse = ' ')}", 
-                       .sep = "\n"))
-  }
+  missing <- dplyr::anti_join(common_genes, df)[[id]]
   
   if (find_alias & id == "hgnc_symbol") {
-    # Conservative matching that only replaces if one gene alias has
-    # only one match and the matched gene has only one alias
-    
-    df <- dplyr::mutate(df, row_id = rownames(df))
-    
-    # Remember, can assume hgnc.
-    
-    # need to assign ID to rows, I think (hence ID...but need to do stuff upstream)
-    jd <- common_genes |>
-      dplyr::semi_join(as.data.frame(missing), by = c("hgnc_symbol" = "missing")) |>
-      dplyr::inner_join(df, by = c("external_synonym" = "hgnc_symbol")) |> 
-      dplyr::group_by(hgnc_symbol) |>
-      dplyr::mutate(hgnc_has_one_match = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE)) |>
-      dplyr::group_by(row_id) |>
-      dplyr::mutate(alias_has_one_match = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE)) |>
-      dplyr::filter(hgnc_has_one_match & alias_has_one_match) |>
-      dplyr::rename(hgnc_symbol_new = hgnc_symbol) |>
-      dplyr::select(row_id, hgnc_symbol_new)
-    
-    df <- df |> 
-      dplyr::right_join(jd, by = "row_id") |> 
-      dplyr::mutate(alias = dplyr::if_else(!is.na(hgnc_symbol_new), hgnc_symbol_new, hgnc_symbol)) |>
-      dplyr::select(-hgnc_symbol_new, -hgnc_symbol, -row_id) |>
-      dplyr::relocate(alias) |>
-      dplyr::rename(hgnc_symbol = alias)
-    message(glue::glue("{nrow(df)} of {length(unique(missing))} missing genes found matches using aliases."))
-    filtered <- dplyr::bind_rows(filtered, df)
+    filtered <- find_alias(df, common_genes, missing, filtered)
+    missing <- dplyr::anti_join(common_genes, filtered)[["hgnc_symbol"]]
   }
   
+  if (tell_missing) tell_missing(missing)
+  
+  message(glue::glue("
+                     
+                     Found {nrow(filtered)} of {nrow(unique_common_genes)} \\
+                     genes ({round(nrow(filtered)/nrow(unique_common_genes) * 100, 3)}%) \\
+                     in your dataset.
+                     
+                     ", sep = "\n\n"))
+  
   filtered
+}
+
+tell_missing <- function(missing) {
+  if (length(unique(missing)) > 10) {
+    message(glue::glue("
+                       
+                       The following genes are in the list of common genes, \\
+                       but not in your dataset:
+                       
+                       {paste(unique(missing)[1:10], collapse = ' ')}...and {length(unique(missing)) - 10} others
+                       
+                       ",
+                       .sep = "\n\n"))
+  } else{    
+    message(glue::glue("
+                       
+                       The following genes are in the list of common genes, \\
+                       but not in your dataset:
+                       
+                       {paste(unique(missing), collapse = ' ')}
+                       
+                       ",
+                       .sep = "\n\n"))
+  }
+}
+
+find_alias <- function(df, common_genes, missing, filtered) {
+
+  df <- dplyr::mutate(df, row_id = rownames(df))
+
+  matched_aliases <- common_genes |>
+    dplyr::semi_join(as.data.frame(missing), 
+                     by = c("hgnc_symbol" = "missing")) |>
+    dplyr::inner_join(df, 
+                      by = c("external_synonym" = "hgnc_symbol")) |> 
+    dplyr::group_by(.data$hgnc_symbol) |>
+    dplyr::mutate(hgnc_has_one_match = dplyr::if_else(dplyr::n() == 1, 
+                                                            TRUE, 
+                                                            FALSE)) |>
+    dplyr::group_by(.data$row_id) |>
+    dplyr::mutate(alias_has_one_match = dplyr::if_else(dplyr::n() == 1, 
+                                                             TRUE, 
+                                                             FALSE)) |>
+    dplyr::filter(.data$hgnc_has_one_match & .data$alias_has_one_match) |>
+    dplyr::rename(hgnc_symbol_new = .data$hgnc_symbol) |>
+    dplyr::select(.data$row_id, .data$hgnc_symbol_new)
+  
+  df <- df |> 
+    dplyr::right_join(matched_aliases, by = "row_id") |> 
+    dplyr::mutate(alias = dplyr::if_else(!is.na(.data$hgnc_symbol_new), 
+                                         .data$hgnc_symbol_new, 
+                                         .data$hgnc_symbol)) |>
+    dplyr::select(-.data$hgnc_symbol_new, -.data$hgnc_symbol, -.data$row_id) |>
+    dplyr::relocate(.data$alias) |>
+    dplyr::rename(hgnc_symbol = .data$alias)
+  message(glue::glue("{nrow(df)} of {length(unique(missing))} missing genes found matches using aliases."))
+  filtered <- dplyr::bind_rows(filtered, df)
 }
