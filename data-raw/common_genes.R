@@ -25,26 +25,23 @@ get_identifiers <- function(x) {
 # Takes the common genes list used in the estimate package
 common_genes <- get_identifiers(common_genes_old)
 
-dupes_ent <- common_genes$entrezgene_id[duplicated(common_genes$entrezgene_id)] 
-ent_dupes <- common_genes[common_genes$entrezgene_id %in% dupes_ent,]
+dupe_check <- unique(common_genes[,1:2])
 
-dupes_hgnc <- common_genes$hgnc_symbol[duplicated(common_genes$hgnc_symbol)] 
+dupes_ent <- dupe_check$entrezgene_id[duplicated(dupe_check$entrezgene_id)] 
+ent_dupes <- dupe_check[dupe_check$entrezgene_id %in% dupes_ent,]
 
-blank <- filter(common_genes, hgnc_symbol == "")
-
-# Blanks that do not have another entry with a name.
-anti_join(blank, ent_dupes)
-
-# There are just two: 23766, and 79857. The first is a pseudogene, the second is
-# an ncRNA gene. Both feel safe to remove.
+dupes_hgnc <- dupe_check$hgnc_symbol[duplicated(dupe_check$hgnc_symbol)] 
+# Only dupes are those that have a blank name.
+# Getting rid of them
 
 common_genes <- filter(common_genes, hgnc_symbol != "")
 
-dupes_hgnc <- common_genes$hgnc_symbol[duplicated(common_genes$hgnc_symbol)] 
+dupe_check <- unique(common_genes[,1:2])
+dupes_hgnc <- dupe_check$hgnc_symbol[duplicated(dupe_check$hgnc_symbol)] 
 # No more HGNC duplicates
 
-dupes_ent <- common_genes$entrezgene_id[duplicated(common_genes$entrezgene_id)] 
-ent_dupes <- common_genes[common_genes$entrezgene_id %in% dupes_ent,]
+dupes_ent <- dupe_check$entrezgene_id[duplicated(dupe_check$entrezgene_id)] 
+ent_dupes <- dupe_check[dupe_check$entrezgene_id %in% dupes_ent,]
 
 # Three duplicates remain. In all cases, one of the two is a two-symbol gene.
 # I'm going to filter FOR the dashed genes, then use a filtering join to get 
@@ -54,7 +51,8 @@ remove <- filter(ent_dupes, str_detect(hgnc_symbol, "-"))
 
 common_genes <- anti_join(common_genes, remove)
 
-dupes_ent <- common_genes$entrezgene_id[duplicated(common_genes$entrezgene_id)] 
+dupe_check <- unique(common_genes[,1:2])
+dupes_ent <- dupe_check$entrezgene_id[duplicated(dupe_check$entrezgene_id)] 
 # No more dupes!
 
 # Now, who's missing?
@@ -87,5 +85,27 @@ aj <- anti_join(common_genes_old, common_genes, by = c("EntrezID" = "entrezgene_
 # 9/10412 = ~0.00086
 
 common_genes <- mutate(common_genes, across(everything(), as.character))
+
+# It is very important that gene set genes find a match. Since the find alias
+# function is rather conservative, we need to 'force' it to make matches by
+# removing extraneous aliases that are probably not going to be found in the
+# given dataframe
+
+# At the time of writing, the stromal_signature has 5 HGNC symbols that are out
+# of date, and only 2 have multiple aliases. Additionally, the immune_signature
+# has 1 symbols that is out of date, with multiple aliases.
+
+# These will be updated in the genesets, but their aliases also need tuning to
+# ensure a proper match can be made.
+
+# We are essentially forcing a "one to one" relationship with the most common
+# alias and the proper HGNC symbol
+
+common_genes <- filter(common_genes, (hgnc_symbol != "CCN4") | (hgnc_symbol == "CCN4" & external_synonym == "WISP1"),
+                       (hgnc_symbol != "PLPPR4") | (hgnc_symbol == "PLPPR4" & external_synonym == "LPPR4"),
+                       (hgnc_symbol != "FYB1") | (hgnc_symbol == "FYB1" & external_synonym == "FYB"))
+
+common_genes <- mutate(common_genes,
+                       external_synonym = stringi::stri_trans_general(external_synonym, "latin-ascii"))
 
 usethis::use_data(common_genes, overwrite = TRUE)
