@@ -17,6 +17,7 @@ ov
 }
 \description{
 A matrix containing RNA expression of 10 ovarian cancer tumors,
-  measured using the Affymetrix U133Plus2.0 platform.
+  measured using the Affymetrix U133Plus2.0 platform. These data have been
+  rounded to the 4th decimal place to reduce file size.
 }
 \keyword{datasets}
