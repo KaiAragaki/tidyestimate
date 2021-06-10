@@ -24,11 +24,15 @@
 #' (at time of writing, June 2021) that were in the ESTIMATE package do not
 #' exist here.
 #'
+#' As one gene can have multiple synonyms/aliases, and there is only one alias
+#' per line, the number of rows in the data frame (26339) does not reflect the number of
+#' unique genes in the dataset (10391).
 #'
-#' @format A data frame with 10391 rows and 2 variables: 
-#' \describe{
-#'   \item{entrezgene_id}{Entrez id of the gene} 
-#'   \item{hgnc_symbol}{Human Genome Organisation (HUGO) Gene Nomenclature Committee symbol}
+#' @format A data frame with 26339 rows and 3 variables: 
+#'   \describe{
+#'     \item{entrezgene_id}{Entrez id of the gene} 
+#'     \item{hgnc_symbol}{Human Genome Organisation (HUGO) Gene Nomenclature Committee symbol}
+#'     \item{external_synonym}{A synonym/alias a given gene may go by or previously was called}
 #'   }
 #' @source
 #'   \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/common_genes.RData?root=estimate&view=log}
