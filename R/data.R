@@ -1,8 +1,8 @@
 #' Genes shared between six expression platforms
-#' 
-#' @description 
-#' As the ESTIMATE model was trained on a specific set of genes, only those
-#' within this dataset should be included before running \code{estimate_scores}.
+#'
+#' @description As the ESTIMATE model was trained on a specific set of genes,
+#' only those within this dataset should be included before running
+#' \code{estimate_scores}.
 #'
 #' These are the genes common to 6 platforms:
 #'
@@ -19,9 +19,10 @@
 #' - Illumina HiSeq RNA sequence
 #'
 #' The Entrez IDs for the original 10412 genes were matched to HGNC symbols
-#' using \code{biomaRt}. Duplicates and blank entries were filtered. As some have now
-#' been discovered to be pseudogenes or have been deprecated, 22 genes (at time
-#' of writing, June 2021) that were in the ESTIMATE package do not exist here.
+#' using \code{biomaRt}. Duplicates and blank entries were filtered. As some
+#' have now been discovered to be pseudogenes or have been deprecated, 22 genes
+#' (at time of writing, June 2021) that were in the ESTIMATE package do not
+#' exist here.
 #'
 #'
 #' @format A data frame with 10391 rows and 2 variables: 
@@ -29,7 +30,8 @@
 #'   \item{entrezgene_id}{Entrez id of the gene} 
 #'   \item{hgnc_symbol}{Human Genome Organisation (HUGO) Gene Nomenclature Committee symbol}
 #'   }
-#' @source \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/common_genes.RData?root=estimate&view=log}
+#' @source
+#'   \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/common_genes.RData?root=estimate&view=log}
 "common_genes"
 
 #' Gene sets to measure tumor stromal and immune infiltration
@@ -42,18 +44,21 @@
 #'     \item{stromal_signature}{Geneset of HGNC symbols used to measure stromal cell infiltration in a tumor}
 #'     \item{immune_signature}{Geneset of HGNC symbols used to measure immune cell infiltration in a tumor}
 #'   }
-#' @source \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/SI_geneset.RData?root=estimate&view=log}
+#' @source 
+#'   \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/SI_geneset.RData?root=estimate&view=log}
 "gene_sets"
 
 #' Ovarian cancer tumor RNA expression
 #'
 #' @description A matrix containing RNA expression of 10 ovarian cancer tumors,
-#'   measured using the Affymetrix U133Plus2.0 platform.
+#'   measured using the Affymetrix U133Plus2.0 platform. These data have been
+#'   rounded to the 4th decimal place to reduce file size.
 #'
 #' @format A matrix with 17256 rows and 10 columns, where each column represents
 #'   a tumor, and each row represents a gene. Genes are represented by HGNC
 #'   symbols.
-#' @source \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/inst/extdata/sample_input.txt?root=estimate&view=log}
+#' @source
+#'   \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/inst/extdata/sample_input.txt?root=estimate&view=log}
 "ov"
 
 #' Affymetrix data used to train ESTIMATE algorithm
@@ -74,5 +79,6 @@
 #'     \item{ci_95_high}{Upper bound of a 95\% confidence interval of predicted purity scores}
 #'   }
 #'   
-#' @source \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/PurityDataAffy.RData?root=estimate&view=log}
+#' @source 
+#'   \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/PurityDataAffy.RData?root=estimate&view=log}
 "purity_data_affy"
