@@ -53,48 +53,54 @@
 filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
                                  tidy = FALSE, tell_missing = TRUE, 
                                  find_alias = FALSE) {
-        id <- match.arg(id)
-        
-        if (!tidy) {
-                df <- dplyr::as_tibble(df, rownames = id)
-        }
- 
-        common_genes <- tidyestimate::common_genes
-
-        filtered <- dplyr::semi_join(df, common_genes) 
-
-        message(glue::glue("Found {nrow(filtered)} of {nrow(common_genes)} genes ({round(nrow(filtered)/nrow(common_genes) * 100, 3)}%) in your dataset."))
-        
-        if (tell_missing) {
-                missing <- dplyr::anti_join(common_genes, df)[[id]]
-                message(glue::glue("The following genes are in the list of common genes, but not in your dataset:", 
-                                   "{paste(missing, collapse = ' ')}", 
-                                   .sep = "\n"))
-        }
-        
-        if (find_alias & id == "hgnc_symbol") {
-                # Conservative matching that only replaces if one gene alias has
-                # only one match and the matched gene has only one alias
-                # 
-                
-                # Remember, can assume hgnc.
-                
-                # need to assign ID to rows, I think (hence ID...but need to do stuff upstream)
-                jd <- inner_join(common_genes, df) |> 
-                        group_by(hgnc) |> 
-                        mutate(hgnc_has_one_match = if_else(n() == 1, T, F)) |> 
-                        group_by(id) |> 
-                        mutate(alias_has_one_match = if_else(n() == 1, T, F)) |> 
-                        filter(hgnc_has_one_match & alias_has_one_match) |> 
-                        select(id, hgnc)
-                
-                df <- df |> 
-                        right_join(jd, by = "id") |> 
-                        mutate(alias = if_else(!is.na(hgnc), hgnc, alias)) |> 
-                        select(-hgnc)
-                
-                
-        }
-        
-        filtered
+  id <- match.arg(id)
+  
+  if (!tidy) {
+    df <- dplyr::as_tibble(df, rownames = id)
+  }
+  
+  common_genes <- tidyestimate::common_genes
+  
+  filtered <- dplyr::semi_join(df, common_genes) 
+  
+  message(glue::glue("Found {nrow(filtered)} of {nrow(common_genes)} genes ({round(nrow(filtered)/nrow(common_genes) * 100, 3)}%) in your dataset."))
+  
+  if (tell_missing) {
+    missing <- dplyr::anti_join(common_genes, df)[[id]]
+    message(glue::glue("The following genes are in the list of common genes, but not in your dataset:", 
+                       "{paste(unique(missing), collapse = ' ')}", 
+                       .sep = "\n"))
+  }
+  
+  if (find_alias & id == "hgnc_symbol") {
+    # Conservative matching that only replaces if one gene alias has
+    # only one match and the matched gene has only one alias
+    
+    df <- dplyr::mutate(df, row_id = rownames(df))
+    
+    # Remember, can assume hgnc.
+    
+    # need to assign ID to rows, I think (hence ID...but need to do stuff upstream)
+    jd <- common_genes |>
+      dplyr::semi_join(as.data.frame(missing), by = c("hgnc_symbol" = "missing")) |>
+      dplyr::inner_join(df, by = c("external_synonym" = "hgnc_symbol")) |> 
+      dplyr::group_by(hgnc_symbol) |>
+      dplyr::mutate(hgnc_has_one_match = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE)) |>
+      dplyr::group_by(row_id) |>
+      dplyr::mutate(alias_has_one_match = dplyr::if_else(dplyr::n() == 1, TRUE, FALSE)) |>
+      dplyr::filter(hgnc_has_one_match & alias_has_one_match) |>
+      dplyr::rename(hgnc_symbol_new = hgnc_symbol) |>
+      dplyr::select(row_id, hgnc_symbol_new)
+    
+    df <- df |> 
+      dplyr::right_join(jd, by = "row_id") |> 
+      dplyr::mutate(alias = dplyr::if_else(!is.na(hgnc_symbol_new), hgnc_symbol_new, hgnc_symbol)) |>
+      dplyr::select(-hgnc_symbol_new, -hgnc_symbol, -row_id) |>
+      dplyr::relocate(alias) |>
+      dplyr::rename(hgnc_symbol = alias)
+    message(glue::glue("{nrow(df)} of {length(unique(missing))} missing genes found matches using aliases."))
+    filtered <- dplyr::bind_rows(filtered, df)
+  }
+  
+  filtered
 }
