@@ -5,11 +5,12 @@
 \alias{common_genes}
 \title{Genes shared between six expression platforms}
 \format{
-A data frame with 26339 rows and 3 variables: \describe{
-  \item{entrezgene_id}{Entrez id of the gene} \item{hgnc_symbol}{Human Genome
-  Organisation (HUGO) Gene Nomenclature Committee symbol}
-  \item{external_synonym}{A synonym/alias a given gene may go by or
-  previously was called} }
+A data frame with 26339 rows and 3 variables: 
+  \describe{
+    \item{entrezgene_id}{Entrez id of the gene} 
+    \item{hgnc_symbol}{Human Genome Organisation (HUGO) Gene Nomenclature Committee symbol}
+    \item{external_synonym}{A synonym/alias a given gene may go by or previously was called}
+  }
 }
 \source{
 \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/common_genes.RData?root=estimate&view=log}
