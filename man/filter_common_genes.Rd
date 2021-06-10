@@ -26,14 +26,12 @@ If first column contains gene identifier, set \code{TRUE}}
 \item{tell_missing}{logical. If \code{TRUE}, prints message of genes in
 common gene set that are not in supplied data frame.}
 
-\item{find_alias}{logical. If \code{TRUE}, will attempt to find if genes
-missing from \code{common_genes} are going under an alias. The function
-will attempt to find ESTIMATE gene set genes first (see
-\code{tidyestimate::gene_sets}), then move down the list to find any
-aliases for the remaining genes. See details for more information.}
+\item{find_alias}{logical. If \code{TRUE} and \code{id = "hgnc_symbol"}, will attempt to find if genes
+missing from \code{common_genes} are going under an alias. See details for
+more information.}
 }
 \value{
-A tidy tibble, with gene identifiers as the first column
+A \code{tibble}, with gene identifiers as the first column
 }
 \description{
 As ESTIMATE score calculation is sensitive to the number of genes used, a set
@@ -47,16 +45,13 @@ symbols in \code{tidyestimate::common_genes} but missing from the provided
 dataset. This will only run if \code{find_aliases = TRUE} and \code{id =
 "hgnc_symbol"}.
 
-Aliases will first attempt to be found for those in
-\code{tidyestimate::gene_sets}, starting from the first missing gene in
-\code{tidyestimate::common_genes} and moving downwards. The first encountered
-match found in the given dataset with any alias of that given 'common gene'
-will be marked as a hit, and the gene identifier of the dataframe provided
-will be **changed** to the non-alias gene name in the common genes. The
-matched alias will then be removed from all other aliases in order to
-maximize the number of unique hits (as there are unique HGNC symbols that
-share an alias). Once the process has been attempted for all missing genes of
-the gene sets, attempts will be made for the remaining missing genes.
+This algorithm is very conservative: It will only make a match if the gene
+from the common genes has only one alias that matches with only one gene from
+the provided dataset, **and** the gene from the provided dataset with which
+it matches only matches with a single gene from the list of common genes.
+(Note that a single gene may have many aliases). Once a match has been made,
+the gene in the provided dataset is updated to the gene name in the common
+gene list.
 
 As this can be error prone, it is disabled by default. Users should check
 which genes are becoming reassigned to ensure accuracy.
@@ -65,6 +60,5 @@ The method of generation of these aliases can be found at
 \code{?tidyestimate::common_genes}
 }
 \examples{
-filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, find_alias = FALSE) |>
-  estimate_score(is_affymetrix = TRUE)
+filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = FALSE)
 }

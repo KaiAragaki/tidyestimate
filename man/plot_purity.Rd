@@ -19,7 +19,7 @@ a ggplot
 Plot Affymetrix purity scores against ESTIMATE study purity scores
 }
 \examples{
-filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |> 
+filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = TRUE) |> 
   estimate_score(is_affymetrix = TRUE) |>
   plot_purity(is_affymetrix = TRUE)
 
