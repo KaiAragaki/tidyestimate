@@ -4,18 +4,15 @@
 \alias{estimate_score}
 \title{ESTIMATE tumor purity}
 \usage{
-estimate_score(df, is_affymetrix, tidy)
+estimate_score(df, is_affymetrix)
 }
 \arguments{
 \item{df}{a data frame of normalized expression data, where columns are
-patients and rows are genes. Gene names must be HGNC, and may either be the
-first column or the rownames (see `tidy` argument below)}
+patients and rows are genes. Gene names must be in the first column, and in
+the form of HGNC symbols.}
 
 \item{is_affymetrix}{logical. Is the expression data from an Affymetrix
 array?}
-
-\item{tidy}{logical. If true, assumes the first column contains HGNC symbols.
-If false, assumes rownames contain HGNC symbols}
 }
 \value{
 A data frame with scores for stromal, immune, and ESTIMATE scores per
@@ -47,7 +44,9 @@ references) has been developed. It takes the approximate form of:
 Values have been rounded to two significant figures for display purposes.
 }
 \examples{
-estimate_score(ov, is_affymetrix = TRUE, tidy = FALSE)
+
+filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |>
+  estimate_score(is_affymetrix = TRUE)
 }
 \references{
 Barbie et al. (2009) <doi:10.1038/nature08460>
