@@ -70,9 +70,11 @@ estimate_score <- function(df, is_affymetrix) {
         gene_set <- tidyestimate::gene_sets[, i, drop = FALSE]
         common_genes <- intersect(unlist(gene_set), rownames(df))
         
-        message(glue::glue("Gene set: {colnames(gene_set)}",
-                           "# gene set genes in data: {length(common_genes)} 
-                           (out of {nrow(gene_set)})", .sep = "\n"))
+        message(glue::glue("
+                           Number of {colnames(gene_set)} genes in data: \\
+                           {length(common_genes)} (out of {nrow(gene_set)})
+                           
+                           ", .sep = "\n\n"))
         
         if (length(common_genes) == 0) { 
             next
