@@ -48,7 +48,7 @@
 #' @export
 #'
 #' @examples
-#' filter_common_genes(ov, id = "hgnc_symbol", tidy, find_alias = FALSE) |>
+#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, find_alias = FALSE) |>
 #'   estimate_score(is_affymetrix = TRUE)
 
 filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
