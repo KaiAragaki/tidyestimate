@@ -73,19 +73,28 @@ filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
                                    .sep = "\n"))
         }
         
-        if (find_alias) {
-                # Take missing, then use aliases to search for hits. Start with
-                # signature genes to make sure there's a higher chance that they
-                # get matches. Then move on to other genes, going from top to
-                # bottom. Be sure to eliminate matches that have already been
-                # made as we go along.
-                # Things to tell user:
-                # Number of matches that have been made/salvaged using this method
-                # Number of matches that were unable to be salvaged
-                # Identity of matches that were unable to be salvaged
-                # Then, write it all to the filtered tibble
-                # Should only run if identifier is HGNC
-                # Tell which genes are changed
+        if (find_alias & id == "hgnc_symbol") {
+                # Conservative matching that only replaces if one gene alias has
+                # only one match and the matched gene has only one alias
+                # 
+                
+                # Remember, can assume hgnc.
+                
+                # need to assign ID to rows, I think (hence ID...but need to do stuff upstream)
+                jd <- inner_join(common_genes, df) |> 
+                        group_by(hgnc) |> 
+                        mutate(hgnc_has_one_match = if_else(n() == 1, T, F)) |> 
+                        group_by(id) |> 
+                        mutate(alias_has_one_match = if_else(n() == 1, T, F)) |> 
+                        filter(hgnc_has_one_match & alias_has_one_match) |> 
+                        select(id, hgnc)
+                
+                df <- df |> 
+                        right_join(jd, by = "id") |> 
+                        mutate(alias = if_else(!is.na(hgnc), hgnc, alias)) |> 
+                        select(-hgnc)
+                
+                
         }
         
         filtered
