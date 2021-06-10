@@ -48,7 +48,7 @@
 #' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE) |>
 #'   estimate_score(is_affymetrix = TRUE)
 
-estimate_score <- function(df, is_affymetrix, tidy) {
+estimate_score <- function(df, is_affymetrix) {
 
     rownames <- df[, 1]
     df <- df[, -1] 
@@ -59,7 +59,7 @@ estimate_score <- function(df, is_affymetrix, tidy) {
         data.matrix()|> 
         apply(2, rank, ties.method = "average")
     
-    rownames(df) <- rownames
+    rownames(df) <- unlist(rownames)
     
     df <- 10000*df/nrow(df)
 
