@@ -22,3 +22,5 @@ Additionally:
 📝 Better documentation. Functions are more clear about input requirements and returns.
 
 🕊️ Lighter. Less code, more readable (less to break, easier to fix).
+
+💪 Robust. `tidyestimate` does conservative alias matching to allow compatibility with both old and new gene identifiers.
