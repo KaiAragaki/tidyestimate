@@ -7,13 +7,13 @@
 plot_purity(scores, is_affymetrix)
 }
 \arguments{
-\item{scores}{a data frame, usually one output from `estimate_score`}
+\item{scores}{a \code{data.frame}, usually one output from \code{estimate_score}}
 
 \item{is_affymetrix}{logical. Are these data from an Affymetrix experiment?
-Must be TRUE - this is essentially a verification from the user}
+Must be \code{TRUE} - this is essentially a verification from the user}
 }
 \value{
-a ggplot
+a \code{ggplot}
 }
 \description{
 Plot Affymetrix purity scores against ESTIMATE study purity scores

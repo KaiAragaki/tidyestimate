@@ -2,11 +2,11 @@
 #'
 #' As ESTIMATE score calculation is sensitive to the number of genes used, a set
 #' of common genes used between six platforms has been established (see
-#' \code{?tidyestimate::common_genes} for more details). This function will
-#' filter only for those genes.
+#' \code{?tidyestimate::common_genes}). This function will filter for only those
+#' genes.
 #'
-#' @param df a data frame of RNA expression, with columns corresponding to
-#'   samples, and rows corresponding to genes. Either rownames or the first
+#' @param df a \code{data.frame} of RNA expression values, with columns corresponding
+#'   to samples, and rows corresponding to genes. Either rownames or the first
 #'   column can contain gene IDs (see \code{tidy})
 #' @param id either \code{"entrezgene_id"} or \code{"hgnc_symbol"}, whichever
 #'   \code{df} contains.
@@ -14,9 +14,9 @@
 #'   If first column contains gene identifier, set \code{TRUE}
 #' @param tell_missing logical. If \code{TRUE}, prints message of genes in
 #'   common gene set that are not in supplied data frame.
-#' @param find_alias logical. If \code{TRUE} and \code{id = "hgnc_symbol"}, will attempt to find if genes
-#'   missing from \code{common_genes} are going under an alias. See details for
-#'   more information.
+#' @param find_alias logical. If \code{TRUE} and \code{id = "hgnc_symbol"}, will
+#'   attempt to find if genes missing from \code{common_genes} are going under
+#'   an alias. See details for more information.
 #'
 #' @details
 #'
@@ -27,21 +27,22 @@
 #'
 #' This algorithm is very conservative: It will only make a match if the gene
 #' from the common genes has only one alias that matches with only one gene from
-#' the provided dataset, **and** the gene from the provided dataset with which
-#' it matches only matches with a single gene from the list of common genes.
-#' (Note that a single gene may have many aliases). Once a match has been made,
-#' the gene in the provided dataset is updated to the gene name in the common
-#' gene list.
+#' the provided dataset, \emph{and} the gene from the provided dataset with
+#' which it matches only matches with a single gene from the list of common
+#' genes. (Note that a single gene may have many aliases). Once a match has been
+#' made, the gene in the provided dataset is updated to the gene name in the
+#' common gene list.
 #'
-#' As this can be error prone, it is disabled by default. Users should check
-#' which genes are becoming reassigned to ensure accuracy.
+#' While this method is fairly accurate, is is also a heuristic. Therefore, it is
+#' disabled by default. Users should check which genes are becoming reassigned
+#' to ensure accuracy.
 #'
 #' The method of generation of these aliases can be found at
 #' \code{?tidyestimate::common_genes}
 #'
 #' @return A \code{tibble}, with gene identifiers as the first column
 #' @export
-#'
+#' @importFrom rlang .data
 #' @examples
 #' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = FALSE)
 

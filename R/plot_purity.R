@@ -1,14 +1,14 @@
 #' Plot Affymetrix purity scores against ESTIMATE study purity scores
 #'
-#' @param scores a data frame, usually one output from `estimate_score`
+#' @param scores a \code{data.frame}, usually one output from \code{estimate_score}
 #' @param is_affymetrix logical. Are these data from an Affymetrix experiment?
-#'   Must be TRUE - this is essentially a verification from the user
+#'   Must be \code{TRUE} - this is essentially a verification from the user
 #'
-#' @return a ggplot
+#' @return a \code{ggplot}
 #' @export
 #'
 #' @importFrom ggplot2 aes
-#'
+#' @importFrom rlang .data
 #' @examples
 #' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = TRUE) |> 
 #'   estimate_score(is_affymetrix = TRUE) |>

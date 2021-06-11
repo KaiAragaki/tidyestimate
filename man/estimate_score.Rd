@@ -2,42 +2,45 @@
 % Please edit documentation in R/estimate_score.R
 \name{estimate_score}
 \alias{estimate_score}
-\title{ESTIMATE tumor purity}
+\title{Infer tumor purity using the ESTIMATE algorithm}
 \usage{
 estimate_score(df, is_affymetrix)
 }
 \arguments{
-\item{df}{a data frame of normalized expression data, where columns are
-patients and rows are genes. Gene names must be in the first column, and in
-the form of HGNC symbols.}
+\item{df}{a \code{data.frame} of expression data, where columns are tumors and
+rows are genes. Gene names must be in the first column, and in the form of
+HGNC symbols.}
 
 \item{is_affymetrix}{logical. Is the expression data from an Affymetrix
 array?}
 }
 \value{
-A data frame with scores for stromal, immune, and ESTIMATE scores per
-  tumor. If \code{is_affymetrix = TRUE}, purity scores as well.
+A \code{data.frame} with sample names, as well as scores for stromal,
+  immune, and ESTIMATE scores per tumor. If \code{is_affymetrix = TRUE},
+  purity scores as well.
 }
 \description{
-Calculate Stromal, Immune, and ESTIMATE scores
+Infer tumor purity by using single-sample gene-set-enrichment-analysis with
+stromal and immune cell signatures.
 }
 \details{
-ESTIMATE (and this tidy implementation) calculates tumor infiltration using
-two gene sets: a stromal signature, and an immune signature (these can be
-accessed using \code{tidyestimate::gene_sets}).
+ESTIMATE (and this tidy implementation) infers tumor infiltration using two
+gene sets: a stromal signature, and an immune signature (see
+\code{tidyestimate::gene_sets}).
 
-Enrichment scores for each sample are calculated using single sample Gene Set
-Enrichment Analysis (ssGSEA), a single sample implementation of GSEA.
-Briefly, expression is ranked on a per-sample basis, and the density and
-distribution of gene signature 'hits' is determined. An enrichment of hits at
-the top of the expression ranking confers a higher score, while an enrichment
-of hits at the bottom of the expression ranking confers a lower score.
+Enrichment scores for each sample are calculated using an implementation of
+single sample Gene Set Enrichment Analysis (ssGSEA). Briefly, expression is
+ranked on a per-sample basis, and the density and distribution of gene
+signature 'hits' is determined. An enrichment of hits at the top of the
+expression ranking confers a positive, while an enrichment of hits at the
+bottom of the expression ranking confers a negative.
 
 An 'ESTIMATE' score is calculated by adding the stromal and immune scores
 together.
 
-For Affymetrix arrays, a transformation developed by Yoshihara et al. (see
-references) has been developed. It takes the approximate form of:
+For Affymetrix arrays, an equation to convert an ESTIMATE score to a
+prediction of tumor purity has been developed by Yoshihara et al. (see
+references). It takes the approximate form of:
 
 \deqn{purity = cos(0.61 + 0.00015 * ESTIMATE)}
 

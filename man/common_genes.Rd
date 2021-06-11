@@ -5,12 +5,11 @@
 \alias{common_genes}
 \title{Genes shared between six expression platforms}
 \format{
-A data frame with 26339 rows and 3 variables: 
-  \describe{
-    \item{entrezgene_id}{Entrez id of the gene} 
-    \item{hgnc_symbol}{Human Genome Organisation (HUGO) Gene Nomenclature Committee symbol}
-    \item{external_synonym}{A synonym/alias a given gene may go by or previously was called}
-  }
+A data frame with 26339 rows and 3 variables: \describe{
+  \item{entrezgene_id}{Entrez id of the gene} \item{hgnc_symbol}{Human Genome
+  Organisation (HUGO) Gene Nomenclature Committee symbol}
+  \item{external_synonym}{A synonym/alias a given gene may go by or
+  previously went by} }
 }
 \source{
 \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/data/common_genes.RData?root=estimate&view=log}
@@ -20,31 +19,35 @@ common_genes
 }
 \description{
 As the ESTIMATE model was trained on a specific set of genes,
-only those within this dataset should be included before running
-\code{estimate_scores}.
+  only those within this dataset should be included before running
+  \code{estimate_scores}.
 
-These are the genes common to 6 platforms:
+  These are the genes common to 6 platforms:
 
-- Affymetrix HG-U133Plus2.0
+  - Affymetrix HG-U133Plus2.0
 
-- Affymetrix HT-HG-U133A
+  - Affymetrix HT-HG-U133A
 
-- Affymetrix Human X3P
+  - Affymetrix Human X3P
 
-- Agilent 4x44K (G4112F)
+  - Agilent 4x44K (G4112F)
 
-- Agilent G4502A
+  - Agilent G4502A
 
-- Illumina HiSeq RNA sequence
+  - Illumina HiSeq RNA sequence
 
-The Entrez IDs for the original 10412 genes were matched to HGNC symbols
-using \code{biomaRt}. Duplicates and blank entries were filtered. As some
-have now been discovered to be pseudogenes or have been deprecated, 22 genes
-(at time of writing, June 2021) that were in the ESTIMATE package do not
-exist here.
+  The Entrez IDs for the original 10412 genes were matched to HGNC symbols
+  using \code{biomaRt}. Duplicates and blank entries were filtered. As some
+  have now been discovered to be pseudogenes or have been deprecated, 22
+  genes (at time of writing, June 2021) that were in the ESTIMATE package do
+  not exist here.
 
-As one gene can have multiple synonyms/aliases, and there is only one alias
-per line, the number of rows in the data frame (26339) does not reflect the number of
-unique genes in the dataset (10391).
+  As one gene can have multiple synonyms/aliases, and there is only one alias
+  per line, the number of rows in the data frame (26339) does not reflect the
+  number of unique genes in the dataset (10391).
+}
+\details{
+The ESTIMATE model was trained on a set of genes shared between six
+expression profiling platforms. Those genes are listed in this dataset.
 }
 \keyword{datasets}

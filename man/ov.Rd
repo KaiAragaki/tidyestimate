@@ -7,7 +7,7 @@
 \format{
 A matrix with 17256 rows and 10 columns, where each column represents
   a tumor, and each row represents a gene. Genes are represented by HGNC
-  symbols.
+  symbols in the rownames.
 }
 \source{
 \url{https://r-forge.r-project.org/scm/viewvc.php/pkg/estimate/inst/extdata/sample_input.txt?root=estimate&view=log}

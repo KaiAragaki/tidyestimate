@@ -3,12 +3,12 @@
 \docType{data}
 \name{gene_sets}
 \alias{gene_sets}
-\title{Gene sets to measure tumor stromal and immune infiltration}
+\title{Gene sets to infer tumor stromal and immune infiltration}
 \format{
 A data frame with 141 row and 2 variables:
   \describe{
-    \item{stromal_signature}{Geneset of HGNC symbols used to measure stromal cell infiltration in a tumor}
-    \item{immune_signature}{Geneset of HGNC symbols used to measure immune cell infiltration in a tumor}
+    \item{stromal_signature}{Geneset of HGNC symbols used to infer tumor stromal cell infiltration}
+    \item{immune_signature}{Geneset of HGNC symbols used to infer tumor immune cell infiltration}
   }
 }
 \source{
@@ -18,7 +18,7 @@ A data frame with 141 row and 2 variables:
 gene_sets
 }
 \description{
-Two gene sets, each 141 genes in length, meant to measure
+Two gene sets, each 141 genes in length, created to infer
   stromal and immune infiltration
 }
 \keyword{datasets}
