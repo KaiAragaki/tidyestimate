@@ -3,9 +3,9 @@
 #' Infer tumor purity by using single-sample gene-set-enrichment-analysis with
 #' stromal and immune cell signatures.
 #'
-#' @param df a \code{data.frame} of expression data, where columns are tumors and
-#'   rows are genes. Gene names must be in the first column, and in the form of
-#'   HGNC symbols.
+#' @param df a \code{data.frame} of expression data, where columns are tumors
+#'   and rows are genes. Gene names must be in the first column, and in the form
+#'   of HGNC symbols.
 #' @param is_affymetrix logical. Is the expression data from an Affymetrix
 #'   array?
 #'
@@ -19,8 +19,8 @@
 #' single sample Gene Set Enrichment Analysis (ssGSEA). Briefly, expression is
 #' ranked on a per-sample basis, and the density and distribution of gene
 #' signature 'hits' is determined. An enrichment of hits at the top of the
-#' expression ranking confers a positive, while an enrichment of hits at the
-#' bottom of the expression ranking confers a negative.
+#' expression ranking confers a positive score, while an enrichment of hits at
+#' the bottom of the expression ranking confers a negative score.
 #'
 #' An 'ESTIMATE' score is calculated by adding the stromal and immune scores
 #' together.
@@ -33,9 +33,19 @@
 #'
 #' Values have been rounded to two significant figures for display purposes.
 #'
+#'
 #' @return A \code{data.frame} with sample names, as well as scores for stromal,
 #'   immune, and ESTIMATE scores per tumor. If \code{is_affymetrix = TRUE},
 #'   purity scores as well.
+#' 
+#' 
+#' Purity scores can be interpreted absolutely: a purity of 0.9 means that tumor
+#' is likely 90% pure by this metric. In the case where purity scores are not
+#' available (such as in RNAseq), ESTIMATE scores can only be interpreted
+#' relatively: a sample that has a lower ESTIMATE score than another in one
+#' study can be regarded as more pure than another, but its absolute purity
+#' cannot be inferred, nor can purity across other studies be inferred.
+#'
 #'
 #' @references
 #'
