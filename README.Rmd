@@ -70,7 +70,7 @@ dim(ov)
 ```
 
 ```{r ov_head}
-head(ov)
+head(ov)[,1:5]
 ```
 
 Tumor purity can be predicted like so:
