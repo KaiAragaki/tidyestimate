@@ -19,8 +19,8 @@ Description: The ESTIMATE package infers tumor purity from expression data as a
   with current gene symbols. tidyestimate a fast, tidy, modern reimagination of
   ESTIMATE.
 License: GPL (>= 2)
-URL: https://github.com/KaiAragaki/tidy_estimate
-BugReports: https://github.com/KaiAragaki/tidy_estimate/issues
+URL: https://github.com/KaiAragaki/tidyestimate
+BugReports: https://github.com/KaiAragaki/tidyestimate/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
