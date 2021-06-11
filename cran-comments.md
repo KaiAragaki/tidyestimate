@@ -1,6 +1,10 @@
 ## Test environments
 * local install and win-builder (devel and release)
 * local OS X install, R 4.1.0
+* GitHub Actions R-CMD-check, R 4.1.0, windows-latest (release) 
+* GitHub Actions R-CMD-check, R 4.1.0, macOS-latest (release) 
+* GitHub Actions R-CMD-check, R 4.1.0, ubuntu-20.04 (release) 
+* GitHub Actions R-CMD-check, R 4.1.0, ubuntu-20.04 (devel) 
 
 
 ## R CMD check results
