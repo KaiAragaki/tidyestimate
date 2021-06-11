@@ -4,6 +4,8 @@
 # tidyestimate <img src='man/figures/logo.png' align="right" height="138" />
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/KaiAragaki/tidy_estimate/workflows/R-CMD-check/badge.svg)](https://github.com/KaiAragaki/tidy_estimate/actions)
 <!-- badges: end -->
 
 The ESTIMATE package has been fundamental for infering tumor purity from
