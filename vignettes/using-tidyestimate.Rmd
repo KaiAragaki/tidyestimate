@@ -59,7 +59,7 @@ You will notice there are several arguments:
 
 - `id` specifies the type of gene ID. As mentioned, it can either be an HGNC symbol (`"hgnc_symbol"`) or an Entrez ID (`"entrezgene_id"`).
 
-- The `tidy` argument allows you to specify if the IDs are rownames, or if they are in the first column of the provided input. This allows for an input of a tibble, which does not allow for rownames. It lacks a default value to ensure the operator is aware of the decision they are making, lest one sample be mistaken for names or vice versa.
+- The `tidy` argument allows you to specify if the IDs are rownames, or if they are in the first column of the provided input. Set `tidy = TRUE` if identifiers are in the first column of the data, and `FALSE` if they are encoded in the rownames. This option for an input of a tibble, which does not allow for rownames. It lacks a default value to ensure the operator is aware of the decision they are making, lest one sample be mistaken for names or vice-versa.
 
 - The `tell_missing` argument determines whether a message should be emitted about genes that failed to find a match in the dataset.
 
