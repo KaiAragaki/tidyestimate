@@ -1,0 +1,91 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tidyestimate <img src='man/figures/logo.png' align="right" height="138" />
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The ESTIMATE package has been fundamental for infering tumor purity from expression data, but its documentation is lacking, and its functions sometimes overstep their bounds while not doing enough. This package is a refresh of ESTIMATE with the goal of maintaining the excellent backbone of the package while increasing its documentation and function scope.
+
+## Installation
+
+You can install the released version of tidyestimate from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("tidyestimate")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("KaiAragaki/tidy_estimate")
+```
+
+## Features
+
+|            |          tidyestimate|   ESTIMATE|
+|-----------:|:--------------------:|:---------:|
+|       input|`data.frame`<br />`tibble`<br />`matrix`|`.GCT` file|
+|      output|          `data.frame`|`.GCT` file|
+|`%>%`/`\|>`?|                    ✔️|         ✖️|
+|        size|                  <1MB|        ~7MB|
+
+Additionally:
+
+⚡ Faster. `tidyestimate` doesn't do any file conversion.
+
+📝 Better documentation. Functions are more clear about input requirements and returns.
+
+🕊️ Lighter. Less code, more readable (less to break, easier to fix).
+
+💪 Robust. `tidyestimate` does conservative alias matching to allow compatibility with both old and new gene identifiers.
+
+
+
+
+## Quickstart
+
+Evaluating tumor purity with `tidyestimate` is simple. `tidyestimate` can take a `matrix` or `data.frame` (and thus a `tibble`). In this example, we'll be using the `ov` dataset, which is derived from the original `estimate` package. It's a matrix with expression data (profiled using an array-based Affymetrix method) for 10 ovarian cancer tumors.
+
+```{r setup}
+library(tidyestimate)
+```
+
+```{r ov_dim}
+dim(ov)
+```
+
+```{r ov_head}
+head(ov)
+```
+
+Tumor purity can be predicted like so:
+
+```{r}
+scores <- ov |> 
+  filter_common_genes(id = "hgnc_symbol", tell_missing = FALSE, find_alias = TRUE) |> 
+  estimate_score(is_affymetrix = TRUE)
+scores
+```
+
+They can also be plotted in context of the Affymetrix profiled tumors used to generate the ESTIMATE model:
+
+```{r}
+scores |> 
+  plot_purity(is_affymetrix = TRUE)
+```
+A more detailed version of this example can be found in the vignette of this package.
