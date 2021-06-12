@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/KaiAragaki/tidy_estimate/workflows/R-CMD-check/badge.svg)](https://github.com/KaiAragaki/tidy_estimate/actions)
 <!-- badges: end -->
 
-The ESTIMATE package has been fundamental for infering tumor purity from expression data, but its documentation is lacking, and its functions sometimes overstep their bounds while not doing enough. This package is a refresh of ESTIMATE with the goal of maintaining the excellent backbone of the package while increasing its documentation and function scope.
+The ESTIMATE package has been fundamental for inferring tumor purity from expression data, but its documentation is lacking, and its functions sometimes overstep their bounds while not doing enough. This package is a refresh of ESTIMATE with the goal of maintaining the excellent backbone of the package while increasing its documentation and function scope.
 
 ## Installation
 
