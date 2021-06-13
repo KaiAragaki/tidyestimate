@@ -1,3 +1,9 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Updated a README link that produces a NOTE (former repository name --> current repository name)
+
+
 ## Test environments
 * local install and win-builder (devel and release)
 * local OS X install, R 4.1.0
