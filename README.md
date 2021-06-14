@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/KaiAragaki/tidyestimate/workflows/R-CMD-check/badge.svg)](https://github.com/KaiAragaki/tidy_estimate/actions)
+[![R-CMD-check](https://github.com/KaiAragaki/tidyestimate/workflows/R-CMD-check/badge.svg)](https://github.com/KaiAragaki/tidyestimate/actions)
 <!-- badges: end -->
 
 The ESTIMATE package has been fundamental for inferring tumor purity
