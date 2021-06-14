@@ -2,6 +2,7 @@
 This is a resubmission. In this version I have:
 
 * Updated a README link that produces a NOTE (former repository name --> current repository name)
+* Updated another README link that produces a NOTE.
 
 
 ## Test environments
