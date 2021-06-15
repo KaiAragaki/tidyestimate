@@ -1,8 +1,13 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Updated a README link that produces a NOTE (former repository name --> current repository name)
-* Updated another README link that produces a NOTE.
+* All persons noted to have worked on the ESTIMATE algorithm in the paper have been added as authors to the package.
+
+* Quotes have been added to mentions of 'tidyestimate' and 'ESTIMATE' in DESCRIPTION description and title
+
+* DOI link to original ESTIMATE paper has been added at the end of description
+
+I am immensely grateful for your feedback!
 
 
 ## Test environments
