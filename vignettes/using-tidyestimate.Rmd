@@ -83,7 +83,7 @@ plot_purity(scored, is_affymetrix = TRUE)
 
 The `is_affymetrix` argument is a bit of a false choice - if `FALSE`, the function will remind the user that purity scores for non-Affymetrix data are not supported, then stop.
 
-On this plot, grey circles represent the Affymetrix samples used to train the model. Their tumor purity was measured using the ABSOLUTE method (Carter et al. 2012), and a model was fit using an evolutionary model that takes the form of
+On this plot, gray circles represent the Affymetrix samples used to train the model. Their tumor purity was measured using the ABSOLUTE method (Carter et al. 2012), and a model was fit using an evolutionary model that takes the form of
 
 $$\cos(0.6049872018 + 0.0001467884 * ESTIMATE)$$
 
