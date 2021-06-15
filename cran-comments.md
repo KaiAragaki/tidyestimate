@@ -7,11 +7,18 @@ This is a resubmission. In this version I have:
 
 * DOI link to original ESTIMATE paper has been added at the end of description
 
+* Warning: Unexecutable code in man/estimate_score.Rd:
+   filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = TRUE) |> ...
+
+I am unfortunately unable to reproduce the issue above in any of the test environments below. Please let me know if I am in error. I have modified the whitespace around the example in case that was somehow causing issues.
+
+
+
 I am immensely grateful for your feedback!
 
 
 ## Test environments
-* local install and win-builder (devel and release)
+* local Windows install and win-builder (devel and release)
 * local OS X install, R 4.1.0
 * GitHub Actions R-CMD-check, R 4.1.0, windows-latest (release) 
 * GitHub Actions R-CMD-check, R 4.1.0, macOS-latest (release) 
