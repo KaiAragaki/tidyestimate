@@ -57,7 +57,7 @@
 #' @export
 #' @importFrom rlang .data
 #' @examples
-#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = TRUE) |>
+#' filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = TRUE) |> 
 #'   estimate_score(is_affymetrix = TRUE)
 
 estimate_score <- function(df, is_affymetrix) {
