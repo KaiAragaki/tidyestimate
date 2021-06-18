@@ -1,16 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* All persons noted to have worked on the ESTIMATE algorithm in the paper have been added as authors to the package.
-
-* Quotes have been added to mentions of 'tidyestimate' and 'ESTIMATE' in DESCRIPTION description and title
-
-* DOI link to original ESTIMATE paper has been added at the end of description
-
-* Warning: Unexecutable code in man/estimate_score.Rd:
-   filter_common_genes(ov, id = "hgnc_symbol", tidy = FALSE, tell_missing = TRUE, find_alias = TRUE) |> ...
-
-I am unfortunately unable to reproduce the issue above in any of the test environments below. Please let me know if I am in error. I have modified the whitespace around the example in case that was somehow causing issues.
+* Removed a space in the DOI so it is clickable
 
 
 
