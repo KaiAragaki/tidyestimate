@@ -1,4 +1,8 @@
+# tidyestimate (development version)
+
 # tidyestimate 1.0.4
+
+* CRAN release
 
 # tidyestimate 1.0.3
 
