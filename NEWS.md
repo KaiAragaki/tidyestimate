@@ -1,5 +1,7 @@
 # tidyestimate (development version)
 
+* Update NEWS retroactively
+
 # tidyestimate 1.0.4
 
 * CRAN release
