@@ -40,7 +40,7 @@
 #' The method of generation of these aliases can be found at
 #' \code{?tidyestimate::common_genes}
 #'
-#' @return A \code{tibble}, with gene identifiers as the first column
+#' @return A \code{tibble}, with HGNC symbols as the first column
 #' @export
 #' @importFrom rlang .data
 #' @examples
@@ -62,13 +62,13 @@ filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
   
   unique_common_genes <- unique(common_genes[,1:2])
   
-  filtered <- dplyr::semi_join(df, common_genes, by = setNames("hgnc_symbol", user_gene_col)) 
+  filtered <- dplyr::semi_join(df, common_genes, by = stats::setNames(id, user_gene_col)) 
   
-  missing <- dplyr::anti_join(common_genes, df, by = setNames(user_gene_col, "hgnc_symbol"))[[user_gene_col]]
+  missing <- dplyr::anti_join(common_genes, df, by = stats::setNames(user_gene_col, id))[[user_gene_col]]
   
   if (find_alias & id == "hgnc_symbol") {
     filtered <- find_alias(df, common_genes, missing, filtered)
-    missing <- dplyr::anti_join(common_genes, filtered, by = setNames(user_gene_col, "hgnc_symbol"))[["hgnc_symbol"]]
+    missing <- dplyr::anti_join(common_genes, filtered, by = stats::setNames(user_gene_col, "hgnc_symbol"))[["hgnc_symbol"]]
   }
   
   if (tell_missing) tell_missing(missing)
@@ -80,6 +80,13 @@ filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
                      in your dataset.
                      
                      ", sep = "\n\n"))
+  
+  if (id == "entrezgene_id") {
+    hgnc_entrez <- dplyr::select(common_genes, "hgnc_symbol", "entrezgene_id")
+    filtered <- dplyr::left_join(filtered, hgnc_entrez, by = stats::setNames("entrezgene_id", user_gene_col)) |> 
+      dplyr::select(-user_gene_col) |> 
+      dplyr::relocate("hgnc_symbol")
+  }
   
   filtered
 }
