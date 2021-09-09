@@ -51,21 +51,24 @@ filter_common_genes <- function (df, id = c("entrezgene_id", "hgnc_symbol"),
                                  find_alias = FALSE) {
   if (!tidy) {
     df <- dplyr::as_tibble(df, rownames = id)
-  }
+  } 
   
-  if (sum(duplicated(df[[id]])) > 0) warning("Input dataframe has duplicated IDs")
+  # Assumes first column contains gene IDs
+  user_gene_col <- names(df)[1]
+
+  if (sum(duplicated(df[[user_gene_col]])) > 0) warning("Input dataframe has duplicated IDs")
   
   common_genes <- tidyestimate::common_genes
   
   unique_common_genes <- unique(common_genes[,1:2])
   
-  filtered <- dplyr::semi_join(df, common_genes) 
+  filtered <- dplyr::semi_join(df, common_genes, by = setNames("hgnc_symbol", user_gene_col)) 
   
-  missing <- dplyr::anti_join(common_genes, df)[[id]]
+  missing <- dplyr::anti_join(common_genes, df, by = setNames(user_gene_col, "hgnc_symbol"))[[user_gene_col]]
   
   if (find_alias & id == "hgnc_symbol") {
     filtered <- find_alias(df, common_genes, missing, filtered)
-    missing <- dplyr::anti_join(common_genes, filtered)[["hgnc_symbol"]]
+    missing <- dplyr::anti_join(common_genes, filtered, by = setNames(user_gene_col, "hgnc_symbol"))[["hgnc_symbol"]]
   }
   
   if (tell_missing) tell_missing(missing)
