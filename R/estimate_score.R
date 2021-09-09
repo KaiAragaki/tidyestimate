@@ -62,6 +62,10 @@
 
 estimate_score <- function(df, is_affymetrix) {
 
+    if(missing(is_affymetrix)) {
+      stop("`is_affymetrix` must be TRUE or FALSE, and has no default.")
+    }
+  
     rownames <- df[, 1]
     df <- df[, -1] 
     
