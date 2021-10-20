@@ -37,7 +37,7 @@ devtools::install_github("KaiAragaki/tidy_estimate")
 |-------------:|:----------------------------------------:|:-----------:|
 |        input | `data.frame`<br />`tibble`<br />`matrix` | `.GCT` file |
 |       output |               `data.frame`               | `.GCT` file |
-| `%>%`/`\|>`? |                    ✔️                    |     ✖️      |
+| `%>%`/`\|>`? |                    ✔️                    |     🚫      |
 |         size |                 &lt;1MB                  |    \~7MB    |
 
 Additionally:
