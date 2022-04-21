@@ -1,5 +1,9 @@
 # tidyestimate (development version)
 
+## Bugfixes
+
+* Dummy update to force rcmdcheck to rerun on push
+
 # tidyestimate 1.1.0
 
 ## Bugfixes
