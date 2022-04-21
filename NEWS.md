@@ -2,7 +2,7 @@
 
 ## Bugfixes
 
-* Dummy update to force rcmdcheck to rerun on push
+* Update R-CMD-Check GitHub actions to v2
 
 # tidyestimate 1.1.0
 
