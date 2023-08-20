@@ -42,9 +42,6 @@ BugReports: https://github.com/KaiAragaki/tidyestimate/issues
 Depends: 
     R (>= 4.1.0)
 Imports: 
-    utils,
-    grDevices,
-    graphics,
     glue,
     dplyr,
     stats,
