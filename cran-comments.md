@@ -7,8 +7,7 @@
 
 
 ## R CMD check results
-No ERRORs, WARNINGs, or NOTEs
-
+1 NOTE from using emojis in README.Rmd
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package
