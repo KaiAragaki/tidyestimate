@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/KaiAragaki/tidyestimate/workflows/R-CMD-check/badge.svg)](https://github.com/KaiAragaki/tidyestimate/actions)
+[![R-CMD-check](https://github.com/KaiAragaki/tidyestimate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KaiAragaki/tidyestimate/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The ESTIMATE package has been fundamental for inferring tumor purity
@@ -33,12 +34,12 @@ devtools::install_github("KaiAragaki/tidy_estimate")
 
 ## Features
 
-|              |               tidyestimate               |  ESTIMATE   |
-|-------------:|:----------------------------------------:|:-----------:|
-|        input | `data.frame`<br />`tibble`<br />`matrix` | `.GCT` file |
-|       output |               `data.frame`               | `.GCT` file |
-| `%>%`/`\|>`? |                    ✔️                    |     🚫      |
-|         size |                 &lt;1MB                  |    \~7MB    |
+|               |               tidyestimate               |  ESTIMATE   |
+| ------------: | :--------------------------------------: | :---------: |
+|         input | `data.frame`<br />`tibble`<br />`matrix` | `.GCT` file |
+|        output |               `data.frame`               | `.GCT` file |
+| `%>%`/`\\|>`? |                    ✔️                    |     ✖️      |
+|          size |                  \<1MB                   |    \~7MB    |
 
 Additionally:
 
@@ -87,10 +88,7 @@ Tumor purity can be predicted like so:
 scores <- ov |> 
   filter_common_genes(id = "hgnc_symbol", tell_missing = FALSE, find_alias = TRUE) |> 
   estimate_score(is_affymetrix = TRUE)
-#> Joining, by = "hgnc_symbol"
-#> Joining, by = "hgnc_symbol"
 #> 461 of 488 missing genes found matches using aliases.
-#> Joining, by = "hgnc_symbol"
 #> 
 #> Found 10364 of 10391 genes (99.74%) in your dataset.
 #> Number of stromal_signature genes in data: 141 (out of 141)
