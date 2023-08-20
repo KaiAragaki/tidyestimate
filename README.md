@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/KaiAragaki/tidyestimate/workflows/R-CMD-check/badge.svg)](https://github.com/KaiAragaki/tidyestimate/actions)
 [![R-CMD-check](https://github.com/KaiAragaki/tidyestimate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KaiAragaki/tidyestimate/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
