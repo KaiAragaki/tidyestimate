@@ -6,3 +6,4 @@
 ^README\.Rmd$
 ^\.github$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
